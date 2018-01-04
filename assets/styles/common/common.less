@@ -1,0 +1,129 @@
+@import "resetFix";
+@import "utils";
+@import "menu";
+@import "btn";
+@import "loading";
+@import "list";
+@import "modal";
+@import "tab";
+@import "tree";
+@import "header";
+@import "table";
+@import "form";
+@import "seachform";
+@import "tip";
+@import "login";
+body {
+    height: 100%;
+    background-color: #FFF;
+    font-family: 'Source Sans Pro','Helvetica Neue',Helvetica,Arial,sans-serif;
+}
+.gui-menu {
+    float: left;
+    width: 230px;
+    min-height: 100%;
+    // height: 100%;
+    overflow: auto;
+    overflow-x: hidden;
+}
+ul{
+  list-style: none;
+}
+.gui-content {
+    min-height: 100%;
+    margin-left: 229px;
+    box-sizing: border-box;
+    background-color: #eee;
+    border-left: 1px solid #e4e4e4;
+}
+
+.gui-section {
+    margin-top: 50px;
+    padding: 0px 25px;
+    max-height: 870px;
+    overflow-y:scroll;;
+    background: #FFF;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+    .gui-form-group:first-child ~ .gui-form-group{
+      margin-top: -16px;
+      border-top-color: #f9fffb;
+      padding-top: 0;
+    }
+}
+.gov-h{
+  overflow: hidden;
+}
+.gp-r{
+  position: relative;
+}
+.gui-tree-content{
+  margin-left: 200px;
+}
+input[type=checkbox], input[type=radio] {
+   margin: 0px;
+  margin-top: 1px\9;
+  line-height: normal;
+}
+//datatable下拉框
+.input-sm {
+  padding: 0px 10px;
+}
+select.input-sm {
+  height: 20px;
+  line-height: 20px;
+}
+
+.gui-page-head{
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 15px;
+  padding: 10px 0 5px;
+  h3{
+    color: #333;
+    font-size: 14px;
+    font-weight: 700;
+  }
+}
+@media (min-width: 1366px) {
+  .gui-mediaInline{
+    display: inline-block;
+    float: left;
+    text-align: right;
+    margin-top: 0px;
+    &:after{
+      content: "";
+      display: table;
+      clear: both;
+      overflow: hidden;
+    }
+    & .ML15{
+      margin-left: 15px;
+    }
+    //& .FL{
+    //  float: left;
+    //}
+  }
+}
+.form-control{
+  height: 30px;
+}
+.gui-mainViews{
+  //border: 1px solid #9d9d9d;
+  padding: 10px;
+  & ul{
+    padding-left: 10px;
+  }
+  & p{
+    font-weight: 700;
+  }
+}
+.gui-colorRed{
+  color:red;
+}
+.gui-tipsBoxContainer{
+
+}
+@font-face {
+  font-family: 'CloseTip';
+  src: url(../../fonts/menuicon/iconfontClose.ttf);
+}

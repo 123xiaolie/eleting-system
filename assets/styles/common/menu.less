@@ -1,0 +1,186 @@
+
+.gui-menu {
+    .tree-expanded,
+    .tree-collapsed,
+    .tree-folder,
+    .tree-file,
+    .tree-indent {
+        width: 8px;
+    }
+    .tree-node {
+        height: auto;
+        line-height: 41px;
+        position: relative;
+    }
+    .tree-file {
+        background: none;
+        width: 0;
+    }
+    .tree-title {
+        font-size: 12px;
+        padding: 0 2px;
+        font-weight: 300;
+        color: #ddd;
+        height: auto;
+        line-height: 38px;
+    }
+    /*二级文件夹*/
+    .tree-folder {
+        background: none;
+    }
+    /*一级文件夹*/
+    .tree-folder-open {
+        background: none;
+        & ~ .tree-title {
+            color: #ffffff;
+        }
+    }
+    .tree-collapsed,
+    .tree-expanded {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        right: 10px;
+        top: 50%;
+        margin-top: -6px;
+        background: none;
+        &:after,
+        &:before {
+            content: '';
+            position: absolute;
+            right: 0;
+            border: 6px solid #f9fffb;
+            width: 0;
+            height: 0;
+            font-size: 0;
+            overflow: hidden;
+            border-color: transparent transparent transparent #acacac;
+        }
+        &:after {
+            margin: 0 1px 0 0;
+            border-left-color: #1e282c;
+        }
+    }
+    .tree-expanded {
+        &:after,
+        &:before {
+            top: 3px;
+        }
+        &:before {
+            border-color: #acacac transparent transparent;
+        }
+        &:after {
+            margin: -1px 0 0;
+            border-color: #f9fffb transparent transparent;
+        }
+        & ~ ul {
+            background-color: #FFF;
+        }
+    }
+    .tree-node-hover {
+        color: #50b895;
+    }
+    .tree-node-hover {
+        .tree-collapsed {
+            &:after {
+                border-left-color: #e6e6e6;
+            }
+        }
+        .tree-expanded {
+            &:after {
+                border-top-color: #e6e6e6;
+            }
+        }
+    }
+    .tree-node-selected {
+        &:after{
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 0;
+            height: 0;
+            margin-top: 3px;
+            border-top: 17px solid transparent;
+            border-left: 12px solid #3c8dbc;
+            border-bottom: 17px solid transparent;
+        }
+        background-color: #2c3b41;
+        color: #FFF;
+        border:1px solid #1e282c;
+        border-left: 0px solid #3c8dbc;
+        & > .tree-title {
+            color: #FFF;
+            font-weight: 700;
+        }
+        & > .tree-collapsed,
+        & > .tree-expanded {
+            &:before {
+                border-left-color: #FFF;
+            }
+            &:after {
+                border-left-color: #1e282c;
+            }
+        }
+        & > .tree-expanded {
+            &:before {
+                border-color: #FFF transparent transparent;
+            }
+            &:after {
+                border-color: #1e282c transparent transparent;
+            }
+        }
+    }
+    #_easyui_tree_1 ~ ul > li {
+        background-color: #1e282c;
+        &:last-child {
+            border-bottom: none;
+        }
+        & > ul {
+            background-color: #2c3b41;
+            & >li:hover{
+              background-color: #2c3b41!important;
+          }
+      }
+  }
+  .tree-node-selected ~ ul {
+    background-color: #2c3b41;
+    border-top: 5px solid #1e282c;
+    border-bottom: 5px solid #1e282c;
+    &>.tree-node-hover{
+        background-color:#2c3b41 ;
+        .tree-title{
+            color:#ffffff;
+        }
+    }
+}
+.tree-node-hover{
+    background-color:#1e282c ;
+    .tree-title{
+        color:#ffffff;
+    }
+}
+}
+.gui-mid{
+    & .user-panel{
+        color:#ffffff;
+        padding: 10px;
+        & img{
+            width: 45px;
+            height: 45px;
+            margin-right: 20px;
+        }
+    }
+    & .mid-form{
+        padding: 10px;
+        & input{
+            background-color: #2c3b41;
+            border:1px solid #acacac;
+            color:#ffffff;
+            width: 210px;
+            &:focus{
+                border:1px solid #ffffff!important;
+            }
+        }
+    }
+}

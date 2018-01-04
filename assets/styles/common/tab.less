@@ -1,0 +1,42 @@
+.gui-tab{
+	background-color: #efefef;
+	overflow: hidden;
+	width: 100%;
+	padding: 0 15px;		
+	margin-left: -15px;
+	margin-right: -15px;
+	box-sizing: content-box;
+	color: #218D4A;
+	& > li{
+		float: left;
+		padding: 0 5px;
+		color: #333;
+		cursor: pointer;
+	}
+	a{
+		display: block;
+		color: #218D4A;
+		padding: 8px 10px;
+	}
+	.active{
+		background-color: #FFF;
+		color: #333;
+	}
+}
+.gui-mytab{
+  margin-left: 25px;
+  & li:nth-of-type(1){
+	margin-right: 100px;
+  }
+  & li{
+	float: left;
+	padding:5px 15px;
+	& label{
+	  cursor: pointer;
+	  & input{
+		margin-right: 5px;
+		vertical-align: middle;
+	  }
+	}
+  }
+}
