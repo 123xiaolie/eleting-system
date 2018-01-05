@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .gui-UL .form-control {
+            vertical-align: top;
+            width: 47%;
+        }
+        .gui-section {
+            padding: 0 5px;
+        }
+        .equipBind{
+            width: 15%;
+            display: inline-block;
+            min-height: 700px;
+            max-height: 800px;
+            overflow-y:scroll;
+            vertical-align: text-top;
+        }
+        .equipBind .gui-btn{
+            color: #FFF;
+            min-width: 144px;
+            text-align: left;
+            margin-top: 10px;
+            display: block;
+        }
+        .gui-NewUl .listFixed .gui-select{
+            min-width: 242px;
+        }
+        .gui-NewUl .gui-UL .help-block, .gui-NewUl .gui-ul .help-block {
+            margin-left: 21%;
+        }
+    </style>
+</head>
+<body>
+<div class="gui-section">
+    <div class="equipBind">
+        <button  class="gui-btn" onclick="ModuleIdClick(event)" ng-repeat="j in chargeStrategyModuleId" type="button"
+                 value="{{j.moduleId}}">{{j.moduleName}}</button>
+    </div>
+    <div  style="width: 84%;display: inline-block;vertical-align: text-top">
+        <div class="gui-NewUl">
+            <form action="" id="myform" data-bv-excluded style="margin: 10px 0px;">
+                <ul class="gui-ul clearfix gov-h gui-menuTree listFixed">
+                    <li class="form-group">
+                        <label class="ul-label control-label">模板名称</label>
+                        <input type="text" ng-model="chargeModel.moduleName" name="moduleName"
+                               class="gui-input form-control"
+                               data-bv-notempty="true"
+                               data-bv-notempty-message="模板名称不能为空"/>
+                    </li>
+                    <li class="form-group">
+                        <label class="ul-label control-label">节日名称</label>
+                        <input type="text" ng-model="chargeModel.festivalName" name="festivalName"
+                               class="gui-input form-control"
+                               data-bv-notempty="true"
+                               data-bv-notempty-message="节日名称不能为空"/>
+                    </li>
+                    <li class="form-group">
+                        <label class="ul-label control-label">节日折扣</label>
+                        <input type="text" ng-model="chargeModel.festivalDiscount" placeholder="例如：0.88"
+                               name="festivalDiscount"
+                               class="gui-input form-control"
+                               data-bv-notempty="true"
+                               data-bv-notempty-message="节日折扣不能为空"
+                               data-bv-numeric="true"
+                               data-bv-numeric-message="请输入数字"/>
+                    </li>
+                    <li class="form-group">
+                        <label class="ul-label control-label">营销名称</label>
+                        <input type="text" ng-model="chargeModel.marketingName" name="marketingName"
+                               class="gui-input form-control"
+                               data-bv-notempty="true"
+                               data-bv-notempty-message="营销名称不能为空"/>
+                    </li>
+                    <li class="form-group">
+                        <label class="ul-label control-label">营销折扣</label>
+                        <input type="text" ng-model="chargeModel.marketingDiscount" placeholder="例如：0.88"
+                               name="marketingDiscount"
+                               class="gui-input form-control"
+                               data-bv-notempty="true"
+                               data-bv-notempty-message="营销折扣不能为空"
+                               data-bv-numeric="true"
+                               data-bv-numeric-message="请输入数字"/>
+                    </li>
+                    <li class="form-group">
+                        <label class="ul-label control-label">单价</label>
+                        <input type="text" ng-model="chargeModel.unitPrice" placeholder="例如：2.00"
+                               name="unitPrice"
+                               class="gui-input form-control"
+                               data-bv-notempty="true"
+                               data-bv-notempty-message="单价不能为空"
+                               data-bv-numeric="true"
+                               data-bv-numeric-message="请输入数字"/><span style="color:red;">（单位：元）</span>
+                    </li>
+
+                </ul>
+                <ul class="gui-ul clearfix gov-h gui-menuTree addMain">
+
+                </ul>
+                <div class="gui-anniu">
+                    <button class="gui-btn btn-add addYes"  type="button" ng-click="modelShow()">新增</button>
+                    <button class="gui-btn btn-update"  type="button" ng-click="modelSave()">保存修改</button>
+                    <button class="gui-btn btn-remove"  type="button" data-toggle="modal" data-target="#myModal" >删除模板</button>
+                    <button class="gui-btn btn-repeat"  type="button" ng-click="modelRepeat()">重置</button>
+                </div>
+            </form>
+        </div>
+        <table id="grid" class="gui-table " ></table>
+    </div>
+
+    <!-- delete-->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+        <div class="modal-dialog modal-stylemid" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">删除计费模板</h4>
+                </div>
+                <div class="modal-body modal-style">
+                    <form action=""  data-bv-excluded>
+                        <ul class=" clearfix gov-h">
+                            <li class="">
+                                <select name="myformRemove" class="gui-select" id="myformRemove" >
+                                    <option ng-repeat="j in chargeStrategyModuleId" type="button"
+                                            value="{{j.moduleId}}">{{j.moduleName}}</option>
+                                </select>
+                            </li>
+
+                        </ul>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="gui-btn"  data-dismiss="modal">关闭</button>
+                    <button type="button" class="gui-btn addYes" ng-click="viewRemove()" >确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--addmain-->
+<div class="modal fade" id="myModaladdmain" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+    <div class="modal-dialog modal-stylemid" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="">新增内容</h4>
+            </div>
+            <div class="modal-body">
+                <form action=""  data-bv-excluded style="margin: 10px 0px;">
+                    <ul class="gui-ul clearfix gov-h main-list">
+                        <li class="form-group">
+                            <label class=" ">模板名称：</label>
+                            <input type="text" ng-model="chargeModel.moduleName" name=""/>
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">节日名称：</label>
+                            <input type="text" ng-model="chargeModel.festivalName" name=""/>
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">节日折扣：</label>
+                            <input type="text" ng-model="chargeModel.festivalDiscount" />
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">营销名称：</label>
+                            <input type="text" ng-model="chargeModel.marketingName" />
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">营销折扣：</label>
+                            <input type="text" ng-model="chargeModel.marketingDiscount" />
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">单价：</label>
+                            <input type="text" ng-model="chargeModel.unitPrice"/>
+
+                        </li>
+                    </ul>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="gui-btn btn-disable"  data-dismiss="modal">关闭</button>
+                <button type="button" class="gui-btn btn-add " ng-click="modelShowAdd()" >确认新增</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--updatemain-->
+<div class="modal fade" id="myModalupdatemain" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+    <div class="modal-dialog modal-stylemid" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" >修改内容</h4>
+            </div>
+            <div class="modal-body">
+                <form action=""  data-bv-excluded style="margin: 10px 0px;">
+                    <ul class="gui-ul clearfix gov-h main-list">
+                        <li class="form-group">
+                            <label class=" ">模板名称：</label>
+                            <input type="text" ng-model="chargeModel.moduleName" name=""/>
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">节日名称：</label>
+                            <input type="text" ng-model="chargeModel.festivalName" name=""/>
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">节日折扣：</label>
+                            <input type="text" ng-model="chargeModel.festivalDiscount" />
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">营销名称：</label>
+                            <input type="text" ng-model="chargeModel.marketingName" />
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">营销折扣：</label>
+                            <input type="text" ng-model="chargeModel.marketingDiscount" />
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">单价：</label>
+                            <input type="text" ng-model="chargeModel.unitPrice"/>
+
+                        </li>
+                    </ul>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="gui-btn btn-disable"  data-dismiss="modal">关闭</button>
+                <button type="button" class="gui-btn btn-add " ng-click="modelShowUpdate()" >确认修改</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

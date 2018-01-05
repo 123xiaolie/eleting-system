@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .gui-NewUl .listFixed .gui-select{
+            min-width: 242px;
+        }
+        .gui-NewUl .gui-UL .help-block, .gui-NewUl .gui-ul .help-block {
+            margin-left: 21%;
+        }
+    </style>
+</head>
+<body>
+<div class="gui-section">
+    <div class="gui-seachform">
+        <!--<label >模板编号</label>-->
+        <!--<select onchange="moduleIdSeacherChange()" name="moduleIdSeacher" class="gui-select" style="width: 120px;">-->
+            <!--<option value="">全部</option>-->
+            <!--<option ng-repeat="o in chargeStrategyModuleId" value="{{o.moduleId}}">{{o.moduleName-->
+                <!--}}</option>-->
+            <!--</select>-->
+        <label >策略名称</label><input style="width: 120px;" type="text" class="gui-input" ng-model="chargeStrategySeacher.ruleName"/>
+        <label >开始日期</label>
+        <input  id="beginDate" name='beginDate' style="cursor: pointer;width: 120px;" readonly="readonly"   class="Wdate gui-input" type="text" onFocus="var endDate=$dp.$('lessDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'lessDate\')}'})"/>
+        <label>结束日期</label>
+        <input id="lessDate" name='endDate' class="Wdate gui-input" style="cursor: pointer;width: 120px;" readonly="readonly"  type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'beginDate\')}'})"/>
+        <button class="gui-btn btn-seacher" ng-click="tabChexked()">查询</button>
+        <button class="gui-btn btn-update"  data-toggle="modal" ng-click="manyUpdateTip()"  data-target="#myManyUpdateModal">批量修改</button>
+        <button class="gui-btn btn-delete"  data-toggle="modal" ng-click="manydeleteTip()" data-target="#myManydeleteModal">批量删除</button>
+        <div class="gui-NewUl">
+            <form action="" id="myform" data-bv-excluded style="margin: 10px 0px;">
+                <ul class="gui-ul clearfix gov-h gui-menuTree listFixed">
+                    <li class="form-group">
+                        <label class="ul-label control-label">模板名称</label>
+                        <select name="moduleId" ng-model='chargeStrategy.moduleId' class="gui-select" style="width:
+                         188px;" id="moduleId">
+                            <option value="">无</option>
+                            <option ng-repeat="o in chargeStrategyModuleId" value="{{o.moduleId}}">{{o.moduleName}}</option>
+                        </select>
+                    </li>
+                    <li class="form-group">
+                        <label class="ul-label control-label">策略名称</label>
+                        <input type="text" ng-model="chargeStrategy.ruleName" name="ruleName"
+                               class="gui-input form-control"
+                               data-bv-notempty="true"
+                               data-bv-notempty-message="策略名称不能为空"/>
+                    </li>
+                    <li class="form-group">
+                        <label class="ul-label control-label">起步价格</label>
+                        <input type="text" ng-model="chargeStrategy.beginPrice" name="beginPrice"
+                               class="gui-input form-control"
+                               placeholder="例如：2.00"
+                               data-bv-notempty="true"
+                               data-bv-notempty-message="起步价格不能为空"
+                               data-bv-numeric="true"
+                               data-bv-numeric-message="请输入数字"/><span style="color: red">（单位：元）</span>
+                    </li>
+
+                    <li class="form-group">
+                        <label class="ul-label control-label">起步时长</label>
+                        <input type="text" ng-model="chargeStrategy.beginTime" name="beginTime"
+                               class="gui-input form-control"
+                               data-bv-notempty="true"
+                               data-bv-notempty-message="起步时长不能为空"
+                               data-bv-numeric="true"
+                               data-bv-numeric-message="请输入数字"/><span style="color: red">（单位：分钟）</span>
+                    </li>
+                    <li class="form-group">
+                        <label class="ul-label control-label">计时起点</label>
+                        <input type="text" ng-model="chargeStrategy.chargeTimeBegin" name="chargeTimeBegin"
+                               class="gui-input form-control"
+                               data-bv-notempty="true"
+                               data-bv-notempty-message="起步时长不能为空"
+                               data-bv-numeric="true"
+                               data-bv-numeric-message="请输入数字"/><span style="color: red">（单位：分钟）</span>
+                    </li>
+                    <li class="form-group">
+                        <label class="ul-label control-label">模板日期</label>
+                        <input id="Ddl_Year1" onblur="dataValidator('myform')" type="text" runat="server" class=" Wdate gui-input form-control" name="yearOther"  onfocus="WdatePicker({skin:'default',dateFmt:'yyyy'})"
+                               data-bv-notempty="true"
+                               data-bv-notempty-message="时间不能为空"/>
+                        <input type="text" class="gui-input" name='year' style="display: none"/>
+                    </li>
+                </ul>
+                <div class="gui-anniu">
+                    <button class="gui-btn btn-add addYes"  type="button" ng-click="modelShow()">新增</button>
+                    <button class="gui-btn btn-update"  type="button" ng-click="modelSave()">保存修改</button>
+                    <button class="gui-btn btn-repeat"  type="button" ng-click="modelRepeat()">重置</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <table id="grid" class="gui-table " >
+    </table>
+    <!--addmain-->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+        <div class="modal-dialog modal-stylemid" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">新增内容</h4>
+                </div>
+                <div class="modal-body">
+                    <form action=""  data-bv-excluded style="margin: 10px 0px;">
+                        <ul class="gui-ul clearfix gov-h main-list">
+                            <li class="form-group">
+                                <label class=" ">模板名称：</label>
+                                <select name="moduleId" ng-model='chargeStrategy.moduleId' class="gui-select" style="width:
+                         188px;" id="moduleId">
+                                    <option value="">无</option>
+                                    <option ng-repeat="o in chargeStrategyModuleId" value="{{o.moduleId}}">{{o.moduleName}}</option>
+                                </select>
+                            </li>
+                            <li class="form-group">
+                                <label class=" ">策略名称：</label>
+                                <input type="text" ng-model="chargeStrategy.ruleName" name=""/>
+                            </li>
+                            <li class="form-group">
+                                <label class=" ">起步价格：</label>
+                                <input type="text" ng-model="chargeStrategy.beginPrice" name=""/>
+                            </li>
+
+                            <li class="form-group">
+                                <label class=" ">起步时长：</label>
+                                <input type="text" ng-model="chargeStrategy.beginTime" name=""/>
+                            </li>
+                            <li class="form-group">
+                                <label class=" ">计时起点：</label>
+                                <input type="text" ng-model="chargeStrategy.chargeTimeBegin" name=""/>
+                            </li>
+                            <li class="form-group">
+                                <label class=" ">模板日期：</label>
+                                <input  ng-model='chargeStrategy.year' type="text" />
+                            </li>
+                        </ul>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="gui-btn btn-disable"  data-dismiss="modal">关闭</button>
+                    <button type="button" class="gui-btn btn-add " ng-click="modelShowAdd()" >确认新增</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--updatemain-->
+    <div class="modal fade" id="myupdateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+        <div class="modal-dialog modal-stylemid" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="">修改内容</h4>
+                </div>
+                <div class="modal-body">
+                    <form action=""  data-bv-excluded style="margin: 10px 0px;">
+                        <ul class="gui-ul clearfix gov-h main-list">
+                            <li class="form-group">
+                                <label class=" ">模板名称：</label>
+                                <select name="moduleId" ng-model='chargeStrategy.moduleId' class="gui-select" style="width:
+                         188px;" id="moduleId">
+                                    <option value="">无</option>
+                                    <option ng-repeat="o in chargeStrategyModuleId" value="{{o.moduleId}}">{{o.moduleName}}</option>
+                                </select>
+                            </li>
+                            <li class="form-group">
+                                <label class=" ">策略名称：</label>
+                                <input type="text" ng-model="chargeStrategy.ruleName" name=""/>
+                            </li>
+                            <li class="form-group">
+                                <label class=" ">起步价格：</label>
+                                <input type="text" ng-model="chargeStrategy.beginPrice" name=""/>
+                            </li>
+
+                            <li class="form-group">
+                                <label class=" ">起步时长：</label>
+                                <input type="text" ng-model="chargeStrategy.beginTime" name=""/>
+                            </li>
+                            <li class="form-group">
+                                <label class=" ">计时起点：</label>
+                                <input type="text" ng-model="chargeStrategy.chargeTimeBegin" name=""/>
+                            </li>
+                            <li class="form-group">
+                                <label class=" ">模板日期：</label>
+                                <input  ng-model='chargeStrategy.year' type="text" />
+                            </li>
+                        </ul>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="gui-btn btn-disable"  data-dismiss="modal">关闭</button>
+                    <button type="button" class="gui-btn btn-add " ng-click="modelShowUpdate()" >确认修改</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- many-->
+    <div class="modal fade" id="myManyUpdateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true" >
+        <div class="modal-dialog modal-stylemid" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" >批量修改计费策略</h4>
+                </div>
+                <div class="modal-body ">
+                    <form action="" id="mymanyupdateform" data-bv-excluded>
+                        <ul class="gui-ul clearfix gov-h">
+                            <li class="form-group">
+                                <label class="ul-label control-label">策略名称</label>
+                                <select name="ruleNameMany" ng-model='ruleNaameChangeParams.ruleNameMany'   class="gui-select"
+                                        style="width: 188px;"
+                                        id="ruleNameMany">
+                                    <option value="">选择计费策略</option>
+                                    <!--<option ng-repeat="k in parkMangeCharheShow" value="{{k.id}}">{{k.ruleName}}</option>-->
+                                </select>
+                            </li>
+                            <li class="form-group">
+                                <label class="ul-label control-label">模板编号</label>
+                                <select name="moduleId1" class="gui-select" style="width: 188px;" id="moduleId2"
+                                        ng-model="ruleNaameChangeParams.moduleId">
+                                    <option value="">选择模板</option>
+                                    <option ng-repeat="o in chargeStrategyModuleId" value="{{o.moduleId}}">{{o.moduleName
+                                        }}</option>
+                                </select>
+                            </li>
+                            <li class="form-group">
+                                <label class="ul-label control-label">开始日期</label>
+                                <input  id="beginDateM" name='beginDate1' style="cursor: pointer;width: 120px;" ng-model="ruleNaameChangeParams.beginDate"   onblur="geoDatechenge()"   class="Wdate gui-input form-control" type="text" onFocus="var endDate=$dp.$('lessDateM');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'lessDateM\')}'})"
+                                        data-bv-notempty="true"
+                                        data-bv-notempty-message="时间不能为空"/>
+                            </li>
+                            <li class="form-group">
+                                <label class="ul-label control-label">结束日期</label>
+                                <input id="lessDateM" name='endDate1' class="Wdate gui-input form-control" style="cursor: pointer;width: 120px;"   type="text" onblur="geoDatechenge()" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'beginDateM\')}'})"
+                                       data-bv-notempty="true"
+                                       data-bv-notempty-message="时间不能为空"/>
+                            </li>
+                            <li class="form-group">
+                                <label class="ul-label control-label">起步价格</label>
+                                <input type="text" ng-model="ruleNaameChangeParams.beginPrice" name="beginPrice1"
+                                       class="gui-input form-control"
+                                       data-bv-notempty="true"
+                                       data-bv-notempty-message="起步价格不能为空"
+                                       data-bv-numeric="true"
+                                       data-bv-numeric-message="请输入数字"/><span style="color: red">（单位：元）</span>
+                            </li>
+
+                            <li class="form-group">
+                                <label class="ul-label control-label">起步时长</label>
+                                <input type="text" ng-model="ruleNaameChangeParams.beginTime" name="beginTime1"
+                                       class="gui-input form-control"
+                                       data-bv-notempty="true"
+                                       data-bv-notempty-message="起步时长不能为空"
+                                       data-bv-numeric="true"
+                                       data-bv-numeric-message="请输入数字"/><span style="color: red">（单位：分钟）</span>
+                            </li>
+                            <li class="form-group">
+                                <label class="ul-label control-label">计费时间起点</label>
+                                <input type="text" ng-model="ruleNaameChangeParams.chargeTimeBegin" name="chargeTimeBegin1"
+                                       class="gui-input form-control"
+                                       data-bv-notempty="true"
+                                       data-bv-notempty-message="起步时长不能为空"
+                                       data-bv-numeric="true"
+                                       data-bv-numeric-message="请输入数字"/><span style="color: red">（单位：分钟）</span>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="gui-btn"  data-dismiss="modal">关闭</button>
+                    <button type="button" class="gui-btn updateYes" ng-click="ruleNaameChange()" >确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- deleet-->
+    <div class="modal fade" id="myManydeleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true" >
+        <div class="modal-dialog modal-stylemid" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" >批量修改计费策略</h4>
+                </div>
+                <div class="modal-body ">
+                    <form action="" id="mymanydeleteform" data-bv-excluded>
+                        <ul class="gui-ul clearfix gov-h">
+                            <li class="form-group">
+                                <label class="ul-label control-label">策略名称</label>
+                                <select name="ruleNameMany1" 
+                                        class="gui-select"  style="width: 188px;"
+                                        id="ruleNameMany1">
+                                    <option value="">选择计费策略</option>
+                                    <!--<option ng-repeat="k in parkMangeCharheShow" value="{{k.id}}">{{k.ruleName}}</option>-->
+                                </select>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="gui-btn"  data-dismiss="modal">关闭</button>
+                    <button type="button" class="gui-btn updateYes" ng-click="viewRemove()" >确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
