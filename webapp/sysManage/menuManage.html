@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        #supersized{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="gui-section">
+    <div class="gui-seachform">
+        <label>菜单名称</label><input type="text" ng-model="menuManageSeach.text" class="gui-input" />
+        <button ng-click="MenutabtypeChexked()" class="gui-btn btn-seacher">查询</button>
+        <button class="gui-btn btn-add"  data-toggle="modal" data-target="#myModal" ng-click="modelShow()">新增</button>
+        <button class="gui-btn btn-update"  data-toggle="modal" data-target="" ng-click="UpdateMenu()">修改</button>
+        <button class="gui-btn btn-remove"  data-toggle="modal" data-target="" ng-click="removeMenu()">刪除</button>
+    </div>
+    <table id="grid" class="gui-table " >
+    </table>
+    <!-- add-->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+        <div class="modal-dialog modal-stylemid" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">新增菜单</h4>
+                </div>
+                <div class="modal-body">
+                    <ul id="myTab" class="nav  gui-mytab">
+                        <li>
+                            <label >
+                                类型
+                            </label>
+                        </li>
+                        <li class="active">
+                                <label ng-click="TabCut('0')">
+                                    <input type="radio" class="choseMenu0" checked name="choseMenu"/>
+                                    目录
+                                </label>
+                        </li>
+                        <li class="active">
+                            <label ng-click="TabCut('1')">
+                                <input type="radio" class="choseMenu1" name="choseMenu"/>
+                                菜单
+                            </label>
+                        </li>
+                        <!--<li class="active">-->
+                            <!--<label ng-click="TabCut('2')">-->
+                                <!--<input type="radio" class="choseMenu2" name="choseMenu"/>-->
+                                <!--按钮-->
+                            <!--</label>-->
+                        <!--</li>-->
+                    </ul>
+                    <div class="">
+                        <div class="" >
+                            <form action="" id="myform" data-bv-excluded>
+                                <ul class="gui-ul gui-menuIsShow1" ng-show="guimenuIsShow1">
+                                    <li class="form-group">
+                                        <label class="ul-label control-label">目录名称</label>
+                                        <input type="text" ng-model="menuManage.text" name="text"
+                                               class="gui-input form-control"
+                                               data-bv-notempty="true"
+                                               data-bv-notempty-message="菜单名称不能为空"/>
+                                    </li>
+                                    <li class="form-group">
+                                        <label class="ul-label control-label">上级菜单</label>
+                                        <input type="text" ng-model="menuManage.parentName" style="cursor: pointer"
+                                               ng-click="treAddMOdel()"
+                                               readonly name="parentName"
+                                               class="gui-input form-control"
+                                               data-bv-notempty="true"
+                                               data-bv-notempty-message="上级菜单不能为空"/>
+                                    </li>
+                                    <li class="form-group">
+                                        <label class="ul-label control-label">排序号</label>
+                                        <input type="text" ng-model="menuManage.orderNum" name="orderNum"
+                                               class="gui-input form-control"
+                                               data-bv-notempty="true"
+                                               data-bv-notempty-message="排序号不能为空"/><span style="color: red">（以整10为单位）</span>
+                                    </li>
+                                </ul>
+                                <!--菜单-->
+                                <ul class="gui-ul gui-menuIsShow2" ng-show="guimenuIsShow2">
+                                    <li class="form-group">
+                                        <label class="ul-label control-label">菜单名称</label>
+                                        <input type="text" ng-model="menuManage.text" name="text"
+                                               class="gui-input form-control"
+                                               data-bv-notempty="true"
+                                               data-bv-notempty-message="菜单名称不能为空"/>
+                                    </li>
+                                    <li class="form-group">
+                                        <label class="ul-label control-label">上级菜单</label>
+                                        <input type="text" ng-model="menuManage.parentName" ng-click="treAddMOdel()" style="cursor: pointer"
+                                               readonly name="parentName"
+                                               class="gui-input form-control"
+                                               data-bv-notempty="true"
+                                               data-bv-notempty-message="上级菜单不能为空"/>
+                                    </li>
+                                    <li class="form-group">
+                                        <label class="ul-label control-label">菜单URL</label>
+                                        <input type="text" ng-model="menuManage.url"   name="url"
+                                               class="gui-input form-control"
+                                               data-bv-notempty="true"
+                                               data-bv-notempty-message="菜单URL不能为空"/>
+                                    </li>
+                                    <!--<li class="form-group">-->
+                                        <!--<label class="ul-label control-label">授权标识</label>-->
+                                        <!--<input type="text" ng-model="menuManage.perms"   name="perms"-->
+                                               <!--class="gui-input form-control"-->
+                                               <!--data-bv-notempty="true"-->
+                                               <!--data-bv-notempty-message="授权标识不能为空"/>-->
+                                    <!--</li>-->
+                                    <li class="form-group">
+                                        <label class="ul-label control-label">排序号</label>
+                                        <input type="text" ng-model="menuManage.orderNum" name="orderNum"
+                                               class="gui-input form-control"
+                                               data-bv-notempty="true"
+                                               data-bv-notempty-message="排序号不能为空"/><span style="color: red">（以整10为单位）</span>
+                                    </li>
+                                </ul>
+                                <!--<ul class="gui-ul gui-menuIsShow3" ng-show="guimenuIsShow3">-->
+                                    <!--<li class="form-group">-->
+                                        <!--<label class="ul-label control-label">按钮名称</label>-->
+                                        <!--<input type="text" ng-model="menuManage.text" name="text"-->
+                                               <!--class="gui-input form-control"-->
+                                               <!--data-bv-notempty="true"-->
+                                               <!--data-bv-notempty-message="菜单名称不能为空"/>-->
+                                    <!--</li>-->
+                                    <!--<li class="form-group">-->
+                                        <!--<label class="ul-label control-label">上级菜单</label>-->
+                                        <!--<input type="text" ng-model="menuManage.parentName" ng-click="treAddMOdel()" style="cursor: pointer"-->
+                                               <!--readonly name="parentName"-->
+                                               <!--class="gui-input form-control"-->
+                                               <!--data-bv-notempty="true"-->
+                                               <!--data-bv-notempty-message="上级菜单不能为空"/>-->
+                                    <!--</li>-->
+                                    <!--<li class="form-group">-->
+                                        <!--<label class="ul-label control-label">授权标识</label>-->
+                                        <!--<input type="text" ng-model="menuManage.perms" name="perms"-->
+                                               <!--class="gui-input form-control"-->
+                                               <!--data-bv-notempty="true"-->
+                                               <!--data-bv-notempty-message="授权标识不能为空"/>-->
+                                    <!--</li>-->
+                                <!--</ul>-->
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="gui-btn"  data-dismiss="modal">关闭</button>
+                    <button type="button" class="gui-btn addYes" ng-click="menuManageadd()" >确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- update-->
+    <div class="modal fade" id="myUpdateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true" >
+        <div class="modal-dialog modal-stylemid" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel2">修改菜单</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="" id="myUpdateform" data-bv-excluded>
+                        <ul class="gui-ul gui-menuIsShow1" ng-show="guimenuIsUpdateShow1">
+                            <li class="form-group">
+                                <label class="ul-label control-label">项目类型</label>
+                                <input type="text" value="目录" readonly class="gui-input form-control"/>
+                            </li>
+                            <li class="form-group">
+                                <label class="ul-label control-label">目录名称</label>
+                                <input type="text" ng-model="menuManage1.text" name="text" readonly
+                                       class="gui-input form-control"
+                                       data-bv-notempty="true"
+                                       data-bv-notempty-message="菜单名称不能为空"/>
+                            </li>
+                            <li class="form-group">
+                                <label class="ul-label control-label">上级菜单</label>
+                                <input type="text" ng-model="menuManage1.parentName" style="cursor: pointer" ng-click="treAddMOdel()"
+                                       readonly name="parentName"
+                                       class="gui-input form-control"
+                                       data-bv-notempty="true"
+                                       data-bv-notempty-message="上级菜单不能为空"/>
+                            </li>
+                            <li class="form-group">
+                                <label class="ul-label control-label">排序号</label>
+                                <input type="text" ng-model="menuManage1.orderNum" name="orderNum"
+                                       class="gui-input form-control"
+                                       data-bv-notempty="true"
+                                       data-bv-notempty-message="排序号不能为空"/>
+                            </li>
+                        </ul>
+                        <ul class="gui-ul gui-menuIsShow2" ng-show="guimenuIsUpdateShow2">
+                            <li class="form-group">
+                                <label class="ul-label control-label">项目类型</label>
+                                <input type="text" value="菜单" readonly class="gui-input form-control"/>
+                            </li>
+                            <li class="form-group">
+                                <label class="ul-label control-label">菜单名称</label>
+                                <input type="text" ng-model="menuManage1.text" name="text1" readonly
+                                       class="gui-input form-control"
+                                       data-bv-notempty="true"
+                                       data-bv-notempty-message="菜单名称不能为空"/>
+                            </li>
+                            <li class="form-group">
+                                <label class="ul-label control-label">上级菜单</label>
+                                <input type="text" ng-model="menuManage1.parentName" style="cursor: pointer" ng-click="treAddMOdel()"
+                                       readonly name="parentName1"
+                                       class="gui-input form-control"
+                                       data-bv-notempty="true"
+                                       data-bv-notempty-message="上级菜单不能为空"/>
+                            </li>
+                            <li class="form-group">
+                                <label class="ul-label control-label">菜单URL</label>
+                                <input type="text" ng-model="menuManage1.url"   name="url1" readonly
+                                       class="gui-input form-control"
+                                       data-bv-notempty="true"
+                                       data-bv-notempty-message="菜单URL不能为空"/>
+                            </li>
+                            <!--<li class="form-group">-->
+                                <!--<label class="ul-label control-label">授权标识</label>-->
+                                <!--<input type="text" ng-model="menuManage1.perms"   name="perms1" readonly-->
+                                       <!--class="gui-input form-control"-->
+                                       <!--data-bv-notempty="true"-->
+                                       <!--data-bv-notempty-message="授权标识不能为空"/>-->
+                            <!--</li>-->
+                            <li class="form-group">
+                                <label class="ul-label control-label">排序号</label>
+                                <input type="text" ng-model="menuManage1.orderNum" name="orderNum1"
+                                       class="gui-input form-control"
+                                       data-bv-notempty="true"
+                                       data-bv-notempty-message="排序号不能为空"/>
+                            </li>
+                        </ul>
+                        <ul class="gui-ul gui-menuIsShow3" ng-show="guimenuIsUpdateShow3">
+                            <li class="form-group">
+                                <label class="ul-label control-label">项目类型</label>
+                                <input type="text" value="按钮" readonly class="gui-input form-control"/>
+                            </li>
+                            <li class="form-group">
+                                <label class="ul-label control-label">按钮名称</label>
+                                <input type="text" ng-model="menuManage1.text" name="text1" readonly
+                                       class="gui-input form-control"
+                                       data-bv-notempty="true"
+                                       data-bv-notempty-message="菜单名称不能为空"/>
+                            </li>
+                            <li class="form-group">
+                                <label class="ul-label control-label">上级菜单</label>
+                                <input type="text" ng-model="menuManage1.parentName" style="cursor: pointer" ng-click="treAddMOdel()"
+                                       readonly name="parentName1"
+                                       class="gui-input form-control"
+                                       data-bv-notempty="true"
+                                       data-bv-notempty-message="上级菜单不能为空"/>
+                            </li>
+                            <li class="form-group">
+                                <label class="ul-label control-label">授权标识</label>
+                                <input type="text" ng-model="menuManage1.perms" name="perms1" readonly
+                                       class="gui-input form-control"
+                                       data-bv-notempty="true"
+                                       data-bv-notempty-message="授权标识不能为空"/>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="gui-btn"  data-dismiss="modal">关闭</button>
+                    <button type="button" class="gui-btn updateYes" ng-click="sysCodeManageUpdate()" >确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- tree add-->
+    <div class="modal fade" id="myaddTreeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true" >
+        <div class="modal-dialog modal-stylemid" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" >选择菜单</h4>
+                </div>
+                <div class="modal-body">
+                    <ul id="menuTt" class="easyui-tree1 gui-menuTree" data-options="method:'get',animate:true"></ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="gui-btn"  data-dismiss="modal">关闭</button>
+                    <button type="button" class="gui-btn " ng-click="treeAdd()" >确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

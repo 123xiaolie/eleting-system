@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .gui-NewUl .gui-UL .help-block, .gui-NewUl .gui-ul .help-block {
+            margin-left: 20%;
+        }
+    </style>
+</head>
+<body>
+<div class="gui-section">
+    <div class="gui-seachform">
+        <!--<label >唯一标识</label><input type="text" class="gui-input" ng-model="sysCodeSeachManage.uniqueMark"/>-->
+        <label >类型标识</label><input type="text" class="gui-input" ng-model="sysCodeSeachManage.uniqueMark"/>
+        <button class="gui-btn btn-seacher" ng-click="CodetabtypeChexked()">查询</button>
+        <!--<button ng-click="result()" class="gui-btn">测试</button>-->
+    </div>
+    <div class="gui-NewUl">
+        <form action="" id="myform" data-bv-excluded style="margin: 10px 0px;">
+            <ul class="gui-ul clearfix gov-h gui-menuTree">
+                <li class="form-group">
+                    <label class="ul-label control-label">名称</label>
+                    <input type="text" ng-model="sysCodeManage.name" name="name"
+                           class="gui-input form-control"
+                           data-bv-notempty="true"
+                           data-bv-notempty-message="名称不能为空"/>
+                </li>
+                <li class="form-group">
+                    <label class="ul-label control-label">编码</label>
+                    <input type="text" ng-model="sysCodeManage.code" name="code"
+                           class="gui-input form-control"
+                           data-bv-notempty="true"
+                           data-bv-notempty-message="名称不能为空"/>
+                </li>
+
+                <li class="form-group">
+                    <label class="ul-label control-label">类型标识</label>
+                    <input type="text"  name="uniqueMark" ng-model="sysCodeManage.uniqueMark"
+                           class="gui-input form-control"
+                           data-bv-notempty="true"
+                           data-bv-notempty-message="类型标识不能为空"/>
+                </li>
+                <li class="form-group">
+                    <label class="ul-label control-label">是否禁用</label>
+                    <select  name="isForbid"  class="gui-select ">
+                        <option value="1" >是</option>
+                        <option selected value="0">否</option>
+                    </select>
+                </li>
+                <li class="form-group">
+                    <label class="ul-label control-label">备注</label>
+                    <input type="text" ng-model="sysCodeManage.remark"  name="remark"
+                           class="gui-input form-control"/>
+                </li>
+            </ul>
+            <div class="gui-anniu">
+                <button class="gui-btn btn-add addYes"  type="button" ng-click="modelShow()">新增</button>
+                <button class="gui-btn btn-update"  type="button" ng-click="modelSave()">保存修改</button>
+                <button class="gui-btn btn-repeat"  type="button" ng-click="modelRepeat()">重置</button>
+            </div>
+        </form>
+    </div>
+    <table id="grid" class="gui-table " ></table>
+    <!--addmain-->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+        <div class="modal-dialog modal-stylemid" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">新增内容</h4>
+                </div>
+                <div class="modal-body">
+                    <form action=""  data-bv-excluded style="margin: 10px 0px;">
+                        <ul class="gui-ul clearfix gov-h main-list">
+                            <li class="form-group">
+                                <label class=" ">名称：</label>
+                                <input type="text" ng-model="sysCodeManage.name" name="name"/>
+                            </li>
+                            <li class="form-group">
+                                <label class=" ">编码：</label>
+                                <input type="text" ng-model="sysCodeManage.code" name="code"/>
+                            </li>
+
+                            <li class="form-group">
+                                <label class=" ">类型标识：</label>
+                                <input type="text"  name="uniqueMark" ng-model="sysCodeManage.uniqueMark"/>
+                            </li>
+                            <li class="form-group">
+                                <label class=" ">是否禁用：</label>
+                                <select  name="isForbid"  class="gui-select ">
+                                    <option value="1" >是</option>
+                                    <option selected value="0">否</option>
+                                </select>
+                            </li>
+                            <li class="form-group">
+                                <label class=" ">备注：</label>
+                                <input type="text" ng-model="sysCodeManage.remark"  name="remark"/>
+                            </li>
+                        </ul>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="gui-btn btn-disable"  data-dismiss="modal">关闭</button>
+                    <button type="button" class="gui-btn btn-add " ng-click="modelShowAdd()" >确认新增</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- update-->
+    <div class="modal fade" id="myUpdateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true" >
+        <div class="modal-dialog modal-stylemid" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel2">修改内容</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="" id="myUpdateform" data-bv-excluded>
+                        <ul class="gui-ul clearfix gov-h main-list">
+                            <li class="form-group">
+                                <label class=" ">名称：</label>
+                                <input type="text" ng-model="sysCodeManage.name" name="name"/>
+                            </li>
+                            <li class="form-group">
+                                <label class=" ">编码：</label>
+                                <input type="text" ng-model="sysCodeManage.code" name="code"/>
+                            </li>
+
+                            <li class="form-group">
+                                <label class=" ">类型标识：</label>
+                                <input type="text"  name="uniqueMark" ng-model="sysCodeManage.uniqueMark"/>
+                            </li>
+                            <li class="form-group">
+                                <label class=" ">是否禁用：</label>
+                                <select  name="isForbid"  class="gui-select ">
+                                    <option value="1" >是</option>
+                                    <option selected value="0">否</option>
+                                </select>
+                            </li>
+                            <li class="form-group">
+                                <label class=" ">备注：</label>
+                                <input type="text" ng-model="sysCodeManage.remark"  name="remark"/>
+                            </li>
+                        </ul>
+                        </ul>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="gui-btn btn-disable"  data-dismiss="modal">关闭</button>
+                    <button type="button" class="gui-btn btn-add updateYes" ng-click="sysCodeManageUpdate()" >确认修改</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

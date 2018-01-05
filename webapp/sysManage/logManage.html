@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .gui-seachform input {
+            width: 110px;
+        }
+        .gui-table td, .gui-table th {
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+<div class="gui-section">
+    <div class="gui-seachform">
+        <label>用户ID</label><input type="text" class="gui-input" ng-model="parkMangeMangeseach.tableName"/>
+        <label>开始时间</label><input name="startTime" type="text" size="15" class="Wdate gui-input"  onfocus =
+            "WdatePicker({dateFmt:'yyyy-MM-dd '}) "/>
+        <input type="text" class="gui-input" placeholder="时" style="min-width:45px;max-width: 45px!important;"
+               name='startHour'
+               maxlength='2'/>
+        <input type="text" class="gui-input" placeholder="分" style="min-width:45px;max-width: 45px!important;"  name="startMin"  maxlength='2'  />
+        <label>结束时间</label></label><input name="endTime" type="text" size="15" class="Wdate gui-input"  onfocus =
+            "WdatePicker({dateFmt:'yyyy-MM-dd '}) "/>
+        <input type="text" placeholder="时" name='endHour' class="gui-input"
+               style="min-width:45px;max-width: 45px!important;"/>
+        <input placeholder="分" name='endMin' type="text" class="gui-input" style="min-width:45px;max-width: 45px!important;"/>
+        <button class="gui-btn btn-seacher" ng-click="tabChexked()">查询</button>
+    </div>
+    <div >
+        <table id="grid" class="gui-table " ></table>
+
+    </div>
+</div>
+</body>
+</html>

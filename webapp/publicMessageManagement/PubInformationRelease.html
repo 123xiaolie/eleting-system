@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .gui-ul .ul-label {
+            width: 10%;
+        }
+        .gui-ul .form-control {
+            min-width: 188px;
+            width: 80%;
+        }
+        input[type=file] {
+            display: inline-block;
+            padding: 5px 15px;
+            line-height: 18px;
+            font-size: 14px;
+            color: #FFF;
+            text-align: center;
+            cursor: pointer;
+            vertical-align: middle;
+            border: 1px solid #3c8dbc;
+            background-color: #3c8dbc;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+<div class="gui-section">
+    <h3 align="center">智慧停车</h3>
+    <div>
+        <form id="myform">
+            <ul class="gui-ul">
+                <li class="form-group">
+                    <label class="ul-label control-label">标题：</label>
+                    <input type="text" ng-model="PubInformationRelease.drMsgTitle" name="drMsgTitle" class="gui-input form-control"
+                           data-bv-notempty="true"
+                           data-bv-notempty-message="标题不能为空"
+                            />
+                </li>
+                <li class="form-group">
+                    <label class="ul-label control-label">内容：</label>
+                <textarea rows="8" ng-model="PubInformationRelease.drMsgCont" name="drMsgCont" style="resize: none"
+                          class="gui-textarea form-control"
+                          placeholder="字数不超过255" maxlength="10"></textarea>
+                </li>
+                <li class="form-group">
+                    <label class="ul-label control-label">
+                        上传附件：
+                    </label>
+                    <input type="file" class="gui-btn"/>
+                </li>
+                <li class="form-group">
+                    <label class="ul-label control-label">
+                        备注：
+                    </label>
+                    <input type="text" ng-model="PubInformationRelease.drMsgContExtend" name="drMsgContExtend"
+                           class="gui-input form-control" maxlength="255"/>
+                </li>
+                <li style="padding-bottom: 20px" class="clearfix gov-h">
+                    <button class="fr gui-btn" ng-click="submitContain()">提交</button>
+                </li>
+            </ul>
+        </form>
+
+    </div>
+</div>
+</body>
+</html>

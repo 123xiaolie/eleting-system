@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style scoped>
+        .gui-ul li select {
+            min-width: 237px!important;
+        }
+        .gui-ul .form-control {
+            width: inherit;
+            min-width: 237px;
+        }
+    </style>
+</head>
+<body>
+<div class="gui-section">
+    <div class="gui-seachform">
+        <label >用户名</label><input type="text" class="gui-input" ng-model="sysUserManageSeach.username"/>
+        <button class="gui-btn btn-seacher" ng-click="tabtypeChexked()">查询</button>
+        <button class="gui-btn btn-add"  data-toggle="modal" data-target="#myModal" ng-click="modelShow()">新增</button>
+        <button class="gui-btn btn-update"  data-toggle="modal" data-target="" ng-click="viewUserUpdate()">修改</button>
+        <button class="gui-btn btn-reomove"  data-toggle="modal" data-target="" ng-click="viewRoleRemove()">删除</button>
+    </div>
+    <table id="grid" class="gui-table " >
+    </table>
+    <!-- add-->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+        <div class="modal-dialog modal-stylemid" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">新增管理员信息</h4>
+                </div>
+                <div class="modal-body ">
+                    <form action="" id="myform" data-bv-excluded>
+                        <ul class="gui-ul clearfix gov-h gui-menuTree">
+                            <li class="form-group">
+                                <label class="ul-label control-label">用户名</label>
+                                <input type="text" ng-model="sysUserManage.username" name="username"
+                                       class="gui-input form-control"
+                                       data-bv-notempty="true"
+                                       data-bv-notempty-message="用户名不能为空"/>
+                            </li>
+                            <li class="form-group">
+                                <label class="ul-label control-label">密码</label>
+                                <input type="text" ng-model="sysUserManage.password"  name="password"
+                                       class="gui-input form-control"
+                                       data-bv-notempty="true"
+                                       data-bv-notempty-message="密码不能为空"
+                                        />
+                            </li>
+                            <li class="form-group">
+                                <label class="ul-label control-label">邮箱</label>
+                                <input type="text" ng-model="sysUserManage.email" name="email"
+                                       class="gui-input form-control"
+                                       data-bv-emailaddress="true"
+                                       data-bv-emailaddress-message="请正确填写邮箱"
+                                        />
+                            </li>
+                            <li class="form-group">
+                                <label class="ul-label control-label">电话</label>
+                                <input type="text" ng-model="sysUserManage.mobile"  name="mobile"
+                                       class="gui-input form-control"
+                                       data-bv-notempty="true"
+                                       data-bv-notempty-message="电话不能为空"/>
+                            </li>
+                            <li class="form-group">
+                                <label class="ul-label control-label">所属片区</label>
+                                <select name="areaCode" class="gui-select" id="areaCode">
+                                    <option value="">全部</option>
+                                    <option ng-repeat="n in uniqueMarkShow" value="{{n.areaCode}}">{{n.fullName}}</option>
+                                </select>
+                                <!--<input type="text" ng-model="sysUserManage.areaCode"  name="areaCode"-->
+                                       <!--class="gui-input form-control"-->
+                                       <!--data-bv-notempty="true"-->
+                                       <!--data-bv-notempty-message="电话不能为空"/>-->
+                            </li>
+                            <li class="form-group">
+                                <label class="ul-label control-label">状态</label>
+                                <select name="status" class="gui-select ">
+                                    <option value="0" >禁用</option>
+                                    <option value="1">正常</option>
+                                </select>
+                            </li>
+                            <li class="form-group">
+                                <label class="ul-label control-label">角色</label>
+                                <ul id="UserTt" class="easyui-tree" data-options="animate:true,checkbox:true"
+                                    style="margin-left: 145px;margin-top: -25px;"
+                                        ></ul>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="gui-btn"  data-dismiss="modal">关闭</button>
+                    <button type="button" class="gui-btn addYes" ng-click="sysUserAdd()" >确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- update-->
+    <div class="modal fade" id="myUpdateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+        <div class="modal-dialog modal-stylemid" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" >修改管理员信息</h4>
+                </div>
+                <div class="modal-body ">
+                    <form action="" id="myupdateform" data-bv-excluded>
+                        <ul class="gui-ul clearfix gov-h gui-menuTree">
+                            <li class="form-group">
+                                <label class="ul-label control-label">用户名</label>
+                                <input type="text" ng-model="sysUserManage1.username" name="username1"
+                                       class="gui-input form-control"
+                                       data-bv-notempty="true"
+                                       data-bv-notempty-message="用户名不能为空"/>
+                            </li>
+                            <li class="form-group">
+                                <label class="ul-label control-label">邮箱</label>
+                                <input type="text" ng-model="sysUserManage1.email" name="email1"
+                                       class="gui-input form-control"
+                                       data-bv-isZipcode="true"
+                                       data-bv-isZipcode-message="请正确填写邮箱"
+                                        />
+                            </li>
+                            <li class="form-group">
+                                <label class="ul-label control-label">电话</label>
+                                <input type="text" ng-model="sysUserManage1.mobile"  name="mobile1"
+                                       class="gui-input form-control"
+                                       data-bv-notempty="true"
+                                       data-bv-notempty-message="电话不能为空"/>
+                            </li>
+                            <li class="form-group">
+                                <label class="ul-label control-label">所属片区</label>
+                                <select name="areaCode1" ng-model='sysUserManage1.areaCode' class="gui-select" id="areaCode1">
+                                    <option value="">全部</option>
+                                    <option ng-repeat="n in uniqueMarkShow" value="{{n.areaCode}}">{{n.fullName
+                                        }}</option>
+                                </select>
+                            </li>
+                            <li class="form-group">
+                                <label class="ul-label control-label">状态</label>
+                                <select name="status1" ng-model='sysUserManage1.status' class="gui-select ">
+                                    <option value="0" >禁用</option>
+                                    <option value="1">正常</option>
+                                </select>
+                            </li>
+                            <li class="form-group ">
+                                <label class="ul-label control-label">角色</label>
+                                <ul id="UserUpdateTt" class="easyui-tree" data-options="animate:true,checkbox:true"
+                                    style="margin-left: 145px;margin-top: -25px;"
+                                        ></ul>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="gui-btn"  data-dismiss="modal">关闭</button>
+                    <button type="button" class="gui-btn updateYes" ng-click="sysUserUpdate()" >确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

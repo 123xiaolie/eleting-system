@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <title>Shiro Demo | 登录</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <link rel="stylesheet" href="../../libs/H5action/style.css"/>
+</head>
+
+<body >
+<div class="gui-loginBg"
+     style="width: 1000px;background-image: url('../../assets/imgs/login/背景1.jpg');position:
+absolute;top: 0;left: 0;z-index: -10;background-size: 100% 100%"></div>
+<!--<script src="../../libs/H5action/canvas-nest.min.js" count="200" zindex="-2" opacity="1"-->
+        <!--color="#fff" type="text/javascript">-->
+<!--</script>-->
+<div class="page-container" style="position: relative">
+    <form id="_form" class="clearfix gov-h" action="" method="post" >
+        <!--<h1>登录</h1>-->
+        <input type="text"  name="account" ng-focus="hideValite()" ng-model="LoginMain.username" class="username"
+               placeholder="用户名">
+        <p ng-show="nameiSshow">{{msgNews}}</p>
+        <div>
+            <input type="password" ng-focus="hideValite()" name="password" ng-model="LoginMain.password" class="password"
+                   placeholder="密码"><br/>
+            <p ng-show="passiSshow">{{msgNews}}</p>
+        </div>
+        <div class="gui-loginCode ">
+            <input type="text" class="gui-input" ng-focus="hideValite()" ng-model="LoginMain.captcha" placeholder="验证码" ng-keyup="submit($event)"/>
+            <img ng-src="{{codeImageSrc}}"  alt=""  ng-click="flushValidateCode()"/>
+            <p ng-show="CodeiSshow">{{msgNews}}</p>
+        </div>
+        <!--<div style="text-align: left; margin-left: 10px;margin-top: 15px;font-size: 12px;">-->
+            <!--<label style="position: relative"><input type="checkbox" checked="checked"   id="rememberMe">-->
+                <!--记住密码</label>-->
+            <!--<label class="fr">-->
+                <!--<input type="checkbox" checked="checked" style="opacity: 0">-->
+                <!--忘记密码?-->
+            <!--</label>-->
+        <!--</div>-->
+        <button type="button" id="login" ng-keyup="enterLogin($event)" ng-click="login()">登录</button>
+    </form>
+</div>
+<!--<script src="../../libs/H5action/canvas-nest.min.js" count="200" zindex="-2" opacity="1"-->
+<!--color="255,255,255" type="text/javascript"></script>-->
+<!--<script src="../../libs/H5action/supersized.3.2.7.min.js?1.0"></script>-->
+<!--<script src="../../libs/H5action/supersized-init.js?1.0"></script>-->
+</body>
+
+</html>
+

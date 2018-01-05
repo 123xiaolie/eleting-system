@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .gui-ul .ul-label {
+            width: 20%;
+            text-align: right;
+            padding-right: 15px;
+        }
+        .gui-NewUl .gui-UL .help-block, .gui-NewUl .gui-ul .help-block {
+            margin-left: 20%;
+        }
+        .gui-ul li select {
+            min-width: 130px;
+        }
+        .addMain .gui-select{
+            min-width: 136px;
+        }
+    </style>
+</head>
+<body>
+<div class="gui-section">
+    <div class="gui-seachform">
+        <label >应用系统</label><input type="text" class="gui-input" ng-model="sysConfigurationMangeseach.serviceSystem"/>
+        <button class="gui-btn btn-seacher" ng-click="tabChexked()">查询</button>
+    </div>
+    <div class="gui-NewUl">
+        <form action="" id="myform" data-bv-excluded style="margin: 10px 0px;">
+            <ul class="gui-ul clearfix gov-h gui-menuTree">
+                <li class="form-group ">
+                    <label class="ul-label control-label" alain='right'>应用系统</label>
+                    <input type="text"   name="serviceSystem" ng-model="sysConfigurationMange.serviceSystem"
+                           class="gui-input form-control"
+                           data-bv-notempty="true"
+                           data-bv-notempty-message="应用系统不能为空"
+                            />
+                </li>
+                <li class="form-group ">
+                    <label class="ul-label control-label" alain='right'>应用路径</label>
+                    <input type="text" ng-model="sysConfigurationMange.servicePath"  name="servicePath" placeholder="例如：/ROOT+具体路径+/"
+                           class="gui-input form-control"
+                           data-bv-notempty="true"
+                           data-bv-notempty-message="应用路径不能为空"
+                            />
+                </li>
+                <li class="form-group ">
+                    <label class="ul-label control-label" alain='right'>IP地址</label>
+                    <input type="text"   name="ip" ng-model="sysConfigurationMange.ip"
+                           class="gui-input form-control"
+                           data-bv-notempty="true"
+                           data-bv-notempty-message="IP地址不能为空"
+                           data-bv-iSip="true"
+                           data-bv-iSip-message="IP格式不正确"
+                            />
+                </li>
+                <li class="form-group ">
+                    <label class="ul-label control-label" alain='right'>端口号</label>
+                    <input type="text" ng-model="sysConfigurationMange.port" maxlength="5" name="port"
+                           class="gui-input form-control"
+                           data-bv-notempty="true"
+                           data-bv-notempty-message="端口号不能为空"
+                           data-bv-iSport="true"
+                           data-bv-iSport-message="端口号格式不正确"
+
+                            />
+                </li>
+                <li class="form-group ">
+                    <label class="ul-label control-label" alain='right'>模板名称</label>
+                    <select name="" id="" class="gui-select" ng-model='sysConfigurationMange.moduleId'>
+                        <option value="">无</option>
+                        <option ng-repeat="o in dataBackModel" value="{{o.moduleId}}">{{o.moduleName}}</option>
+                    </select>
+                </li>
+            </ul>
+            <div class="gui-anniu">
+                <button class="gui-btn btn-add addYes"  type="button" ng-click="modelShow()">新增</button>
+                <button class="gui-btn btn-update"  type="button" ng-click="modelSave()">保存修改</button>
+                <button class="gui-btn btn-repeat"  type="button" ng-click="modelRepeat()">重置</button>
+            </div>
+        </form>
+    </div>
+    <table id="grid" class="gui-table " >
+    </table>
+</div>
+<!--addmain-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+    <div class="modal-dialog modal-stylemid" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">新增内容</h4>
+            </div>
+            <div class="modal-body">
+                <form action=""  data-bv-excluded style="margin: 10px 0px;">
+                    <ul class="gui-ul clearfix gov-h main-list">
+                        <li class="form-group ">
+                            <label class=" " alain='right'>应用系统：</label>
+                            <input type="text"   name="serviceSystem" ng-model="sysConfigurationMange.serviceSystem"/>
+                        </li>
+                        <li class="form-group ">
+                            <label class=" " alain='right'>应用路径：</label>
+                            <input type="text" ng-model="sysConfigurationMange.servicePath"  name="servicePath"/>
+                        </li>
+                        <li class="form-group ">
+                            <label class=" " alain='right'>IP地址：</label>
+                            <input type="text"   name="ip" ng-model="sysConfigurationMange.ip"/>
+                        </li>
+                        <li class="form-group ">
+                            <label class=" " alain='right'>端口号：</label>
+                            <input type="text" ng-model="sysConfigurationMange.port" maxlength="5" name="port"/>
+                        </li>
+                        <li class="form-group ">
+                            <label class=" " alain='right'>模板名称：</label>
+                            <select name=""  class="gui-select" ng-model='sysConfigurationMange.moduleId'>
+                                <option value="">无</option>
+                                <option ng-repeat="o in dataBackModel" value="{{o.moduleId}}">{{o.moduleName}}</option>
+                            </select>
+                        </li>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="gui-btn btn-disable"  data-dismiss="modal">关闭</button>
+                <button type="button" class="gui-btn btn-add " ng-click="modelShowAdd()" >确认新增</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--aupdatemain-->
+<div class="modal fade" id="myaupdateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+    <div class="modal-dialog modal-stylemid" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" >修改内容</h4>
+            </div>
+            <div class="modal-body">
+                <form action=""  data-bv-excluded style="margin: 10px 0px;">
+                    <ul class="gui-ul clearfix gov-h main-list">
+                        <li class="form-group ">
+                            <label class=" " alain='right'>应用系统：</label>
+                            <input type="text"   name="serviceSystem" ng-model="sysConfigurationMange.serviceSystem"/>
+                        </li>
+                        <li class="form-group ">
+                            <label class=" " alain='right'>应用路径：</label>
+                            <input type="text" ng-model="sysConfigurationMange.servicePath"  name="servicePath"/>
+                        </li>
+                        <li class="form-group ">
+                            <label class=" " alain='right'>IP地址：</label>
+                            <input type="text"   name="ip" ng-model="sysConfigurationMange.ip"/>
+                        </li>
+                        <li class="form-group ">
+                            <label class=" " alain='right'>端口号：</label>
+                            <input type="text" ng-model="sysConfigurationMange.port" maxlength="5" name="port"/>
+                        </li>
+                        <li class="form-group ">
+                            <label class=" " alain='right'>模板名称：</label>
+                            <select name=""  class="gui-select" ng-model='sysConfigurationMange.moduleId'>
+                                <option value="">无</option>
+                                <option ng-repeat="o in dataBackModel" value="{{o.moduleId}}">{{o.moduleName}}</option>
+                            </select>
+                        </li>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="gui-btn btn-disable"  data-dismiss="modal">关闭</button>
+                <button type="button" class="gui-btn btn-add " ng-click="modelShowUpdate()" >确认修改</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

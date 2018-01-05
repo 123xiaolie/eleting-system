@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body{
+            overflow: hidden;
+        }
+        .gui-section {
+            padding: 0px 0px;
+            padding-bottom: 400px;
+            overflow-y: scroll;
+            max-height: 924px;
+        }
+        .equipBind{
+            width: 20%;
+            padding-top: 20px;
+            display: inline-block;
+            min-height: 700px;
+            max-height: 800px;
+            border: 1px solid #d8d8d8;
+        }
+        /*.equipBind-btn .gui-btn{*/
+            /*color: #FFF;*/
+            /*min-width: 144px;*/
+            /*text-align: left;*/
+            /*margin-top: 10px;*/
+            /*display: block;*/
+        /*}*/
+        .equipBind div:nth-of-type(1) p:nth-of-type(1){
+            font-size: 18px;
+        }
+        .equipBind-btn{
+            padding-left: 5px;
+            overflow-y: scroll;
+            min-height: 500px;
+            max-height: 500px;
+        }
+        .equipBind-main{
+            margin-top: 10px;
+            padding: 10px;
+        }
+        .equipBind-main input{
+            width: 70%;
+        }
+        /*文件列表*/
+        .fileBox{
+            width: 1300px;
+            padding: 0 10px;
+            display: inline-block;
+            vertical-align: text-top
+        }
+        .file-BoxF{
+            width: 80%;
+            overflow-y: scroll;
+            min-height: 700px;
+            padding-top: 20px;
+        }
+        @media (max-width: 1670px) {
+            .file-BoxF{
+                overflow-x: scroll;
+            }
+            .fileBox-table{
+                overflow-x: scroll;
+            }
+        }
+        .fileBox-table{
+            overflow-y: scroll;
+        }
+        .fileBox>p{
+            font-size: 18px;
+        }
+        /*#grid{*/
+            /*margin-top: 23px;*/
+        /*}*/
+        .fileBox-main{
+            margin-top: 10px;
+            padding: 10px;
+        }
+       select,input{
+            width: 150px!important;
+        }
+        .paramsBox {
+            padding: 25px 10px;
+        }
+        .paramsBox>p{
+            font-size: 18px;
+        }
+        /*.paramsBox-main select{*/
+            /*min-width: 245px;*/
+        /*}*/
+        button{
+            margin-top: 5px;
+        }
+        /*table*/
+        .gui-table {
+             margin-top: 0px;
+        }
+        .gui-table td, .gui-table th {
+            padding: 3px 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="gui-section">
+    <div class="clearfix gov-h">
+        <div  style="" class=" fl equipBind" id='equipBind'>
+            <div>
+                <p align="center"><label >配置模板</label></p>
+            </div>
+            <div class="equipBind-btn">
+                <table id="Modelgrid" class="gui-table " ></table>
+            </div>
+            <div class="equipBind-main">
+                <p>
+                    <label for="">模板名称</label><input type="text" class="gui-input" ng-model="useModul.moduleName"/>
+                </p>
+                <p>
+                    <button type="button" class="gui-btn btn-add" ng-click="ModelAdd()">新增模板</button>
+                    <button type="button" class="gui-btn btn-update" ng-click="ModelUpdate()">保存修改模板</button>
+                </p>
+            </div>
+        </div>
+        <div class="file-BoxF" style="">
+            <div class="fileBox" style="">
+                <p align="center"><label >配置文件列表</label></p>
+                <div class="fileBox-table" style="height: 500px;">
+                    <table id="grid" class="gui-table " ></table>
+                </div>
+                <form action="" id="myfileform" data-bv-excluded>
+                    <div class="fileBox-main">
+                        <p>
+                            <label for="">配置模板</label>
+                            <select class="gui-select" name="moduleId" id="moduleId"
+                                    onchange="modelFileChange()">
+                                <option value="">无</option>
+                                <!--<option ng-repeat="o in parameterManageModuleShow" value="{{o.moduleId}}">{{o.moduleName}}</option>-->
+                            </select>
+                            <label for="">文件类型</label>
+                            <select class="gui-select" name="fileType"  ng-model='fileUseModul.fileType'
+                                    >
+                                <option value="">无</option>
+                                <option value="xml">xml</option>
+                                <option value="properties">properties</option>
+                            </select>
+                            <label for="">文件名称</label><input name="fileName" ng-model="fileUseModul.fileName" class="gui-input"
+                                                              type="text"/>
+                            <label for="">文件原名</label><input name="fileRealName" ng-model="fileUseModul.fileRealName" class="gui-input"
+                                                              type="text"/>
+                            <label for="">文件路径</label><input name="filePath" ng-model="fileUseModul.filePath" class="gui-input" type="text"/>
+                        </p>
+                        <p >
+                            <button type="button" class="gui-btn btn-add" ng-click="fileModelAdd()">新增文件</button>
+                            <button type="button" class="gui-btn btn-update" ng-click="fileModelSave()">保存修改文件</button>
+                            <button type="button" class="gui-btn btn-remove" ng-click="fileModelreset()">重置</button>
+                        </p>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <div class="clearfix gov-h mt15 paramsBox" >
+        <p align="center"><label for="">配置参数列表</label></p>
+        <div style="max-height: 500px;overflow: scroll;">
+            <table id="paramsgrid" class="gui-table " ></table>
+        </div>
+
+        <form action="" id="paramsForm">
+            <div class="paramsBox-main" style="border: 1px solid #cdcdcd;padding: 10px 5px;">
+                <label for="">配置模板
+                    <select class="gui-select" id="paramsMoudleId" name="paramsMoudleId" onchange="modelChange()" >
+                        <option value="">无</option>
+                        <!--<option ng-repeat="o in parameterManageModuleShow" value="{{o.moduleId}}">{{o.moduleName}}</option>-->
+                    </select></label>
+                <label for="">配置文件
+                    <select class="gui-select" name="paramsFileId" id="paramsFileId" onchange="paramsFileChange()"
+                            >
+                        <option value="">无</option>
+                        <!--<option ng-repeat="j in fileSelectNum" value="{{j.fileId}}">{{j.fileName}}</option>-->
+                    </select></label>
+                <label for="">参数类型
+                    <select class="gui-select" name="paramType"  ng-model="paramsUseModul.paramType">
+                        <option value="">无</option>
+                        <option value="string">string</option>
+                        <option value="map">map</option>
+                    </select></label>
+                <label for="">参数名称<input type="text" name="paramName" ng-model="paramsUseModul.paramName" class="gui-input"/>
+                </label>
+                <label for="">参数Xpath
+                    <input type="text" name="paramXpath" ng-model="paramsUseModul.paramXpath" class="gui-input"/>
+                </label>
+                <p>
+                    <button type="button" class="gui-btn btn-add paramsaddYes" ng-click="parmasModelAdd()">新增参数</button>
+                    <button type="button" class="gui-btn btn-update" ng-click="parmasModelUpdate()">保存修改参数</button>
+                    <button type="button" class="gui-btn btn-remove" ng-click="parmasModelreset()">重置</button>
+                </p>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!--fileaddmain-->
+<div class="modal fade" id="filemyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+    <div class="modal-dialog modal-stylemid" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">新增文件内容：</h4>
+            </div>
+            <div class="modal-body">
+                <form action=""  data-bv-excluded style="margin: 10px 0px;">
+                    <ul class="gui-ul clearfix gov-h main-list">
+                        <li class="form-group">
+                            <label class=" ">模板名称：</label>
+                            <input type="text"  ng-model="fileUseModul.moduleName">
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">文件类型：</label>
+                            <input type="text"  ng-model="fileUseModul.fileType">
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">文件名称：</label>
+                            <input type="text"  ng-model="fileUseModul.fileName">
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">文件原名：</label>
+                            <input type="text"   ng-model='fileUseModul.fileRealName'/>
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">文件路径：</label>
+                            <input  ng-model='fileUseModul.filePath'
+                            />
+                        </li>
+                    </ul>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="gui-btn btn-disable"  data-dismiss="modal">关闭</button>
+                <button type="button" class="gui-btn btn-add " ng-click="modelShowfileAdd()" >确认新增文件</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--fileupdatemain-->
+<div class="modal fade" id="filemyUpdateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+    <div class="modal-dialog modal-stylemid" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="">修改文件内容：</h4>
+            </div>
+            <div class="modal-body">
+                <form action=""  data-bv-excluded style="margin: 10px 0px;">
+                    <ul class="gui-ul clearfix gov-h main-list">
+                        <li class="form-group">
+                            <label class=" ">模板名称：</label>
+                            <input type="text"  ng-model="fileUseModul.moduleName">
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">文件类型：</label>
+                            <input type="text"  ng-model="fileUseModul.fileType">
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">文件名称：</label>
+                            <input type="text"  ng-model="fileUseModul.fileName">
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">文件原名：</label>
+                            <input type="text"   ng-model='fileUseModul.fileRealName'/>
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">文件路径：</label>
+                            <input  ng-model='fileUseModul.filePath'
+                            />
+                        </li>
+                    </ul>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="gui-btn btn-disable"  data-dismiss="modal">关闭</button>
+                <button type="button" class="gui-btn btn-add " ng-click="modelShowfileUpdate()" >确认修改文件</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--paramsaddmain-->
+<div class="modal fade" id="paramsmyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+    <div class="modal-dialog modal-stylemid" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="">新增参数内容：</h4>
+            </div>
+            <div class="modal-body">
+                <form action=""  data-bv-excluded style="margin: 10px 0px;">
+                    <ul class="gui-ul clearfix gov-h main-list">
+                        <li class="form-group">
+                            <label class=" ">配置文件：</label>
+                            <input type="text"  ng-model="paramsUseModul.paramsFileName">
+                        </li>
+                        <li class="form-group">
+                            <label class=" "> 参数类型：</label>
+                            <input type="text"  ng-model="paramsUseModul.paramType">
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">参数名称：</label>
+                            <input type="text"   ng-model='paramsUseModul.paramName'/>
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">参数Xpath：</label>
+                            <input  ng-model='paramsUseModul.paramXpath'
+                            />
+                        </li>
+                    </ul>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="gui-btn btn-disable"  data-dismiss="modal">关闭</button>
+                <button type="button" class="gui-btn btn-add " ng-click="modelShowparamsAdd()" >确认新增参数</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--paramsupdatemain-->
+<div class="modal fade" id="pramsmyUpdateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+    <div class="modal-dialog modal-stylemid" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" >修改参数内容：</h4>
+            </div>
+            <div class="modal-body">
+                <form action=""  data-bv-excluded style="margin: 10px 0px;">
+                    <ul class="gui-ul clearfix gov-h main-list">
+                        <li class="form-group">
+                            <label class=" ">配置文件：</label>
+                            <input type="text"  ng-model="paramsUseModul.paramsFileName">
+                        </li>
+                        <li class="form-group">
+                            <label class=" "> 参数类型：</label>
+                            <input type="text"  ng-model="paramsUseModul.paramType">
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">参数名称：</label>
+                            <input type="text"   ng-model='paramsUseModul.paramName'/>
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">参数Xpath：</label>
+                            <input  ng-model='paramsUseModul.paramXpath'
+                            />
+                        </li>
+                    </ul>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="gui-btn btn-disable"  data-dismiss="modal">关闭</button>
+                <button type="button" class="gui-btn btn-add " ng-click="modelShowparamsUpdate()" >确认修改参数</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

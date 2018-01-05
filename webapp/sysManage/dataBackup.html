@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .gui-ul .ul-label {
+            width: 20%;
+            text-align: right;
+            padding-right: 15px;
+        }
+
+        .gui-NewUl .gui-UL .help-block, .gui-NewUl .gui-ul .help-block {
+            margin-left: 20%;
+        }
+
+        .gui-ul li select {
+            min-width: 130px;
+        }
+
+        .addMain .gui-select {
+            min-width: 136px;
+        }
+    </style>
+</head>
+<body>
+<div class="gui-section">
+    <div class="gui-seachform">
+        <label>IP地址</label><input type="text" name="SeaIp" placeholder="10.10.16.234" class="gui-input" ng-model="dataBackupMangeseach.ip"/>
+        <button class="gui-btn btn-seacher" ng-click="dataBacktabChexked()">查询</button>
+    </div>
+    <div class="gui-NewUl">
+        <form action="" id="myform" data-bv-excluded style="margin: 10px 0px;">
+            <ul class="gui-ul clearfix gov-h gui-menuTree">
+                <li class="form-group ">
+                    <label class="ul-label control-label" alain='right'>用户名</label>
+                    <input type="text" name="userName" ng-model="dataBackupMange.userName"
+                           class="gui-input form-control"
+                           data-bv-notempty="true"
+                           data-bv-notempty-message="应用系统不能为空"
+                    />
+                </li>
+                <li class="form-group ">
+                    <label class="ul-label control-label" alain='right'>密码</label>
+                    <input type="password" ng-model="dataBackupMange.pwd" name="pwd"
+                           class="gui-input form-control"
+                           data-bv-notempty="true"
+                           data-bv-notempty-message="密码不能为空"
+                    />
+                </li>
+                <li class="form-group ">
+                    <label class="ul-label control-label" alain='right'>IP地址</label>
+                    <input type="text" name="ip" ng-model="dataBackupMange.ip"
+                           class="gui-input form-control"
+                           data-bv-notempty="true"
+                           data-bv-notempty-message="IP地址不能为空"
+                           data-bv-iSip="true"
+                           data-bv-iSip-message="IP格式不正确"
+                    />
+                </li>
+                <li class="form-group ">
+                    <label class="ul-label control-label" alain='right'>数据库名称</label>
+                    <input type="text" ng-model="dataBackupMange.databaseName" name="databaseName"
+                           class="gui-input form-control"
+                    />
+                </li>
+            </ul>
+            <div class="gui-anniu">
+                <button class="gui-btn btn-add addYes" name='beifen' type="button" ng-click="modelShow()">备份</button>
+                <button class="gui-btn btn-repeat" type="button" ng-click="modelRepeat()">清空表单</button>
+            </div>
+        </form>
+    </div>
+    <table id="grid" class="gui-table ">
+    </table>
+</div>
+<!--addmain-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-stylemid">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">备份内容</h4>
+            </div>
+            <div class="modal-body">
+                <form action="" data-bv-excluded style="margin: 10px 0px;">
+                    <ul class="gui-ul clearfix gov-h main-list">
+                        <li class="form-group ">
+                            <label class=" " alain='right'>用户名：</label>
+                            <input type="text" name="" ng-model="dataBackupMange.userName"/>
+                        </li>
+                        <li class="form-group ">
+                            <label class=" " alain='right'>密码：</label>
+                            <input type="password" ng-model="dataBackupMange.pwd" name=""/>
+                        </li>
+                        <li class="form-group ">
+                            <label class=" " alain='right'>IP地址：</label>
+                            <input type="text" name="ip" ng-model="dataBackupMange.ip"/>
+                        </li>
+                        <li class="form-group ">
+                            <label class=" " alain='right'>数据库名称：</label>
+                            <input type="text" ng-model="dataBackupMange.databaseName" name="databaseName"/>
+                        </li>
+                    </ul>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="gui-btn btn-disable" data-dismiss="modal">关闭</button>
+                <button type="button" class="gui-btn btn-add " ng-click="modelShowAdd()">确认备份</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
