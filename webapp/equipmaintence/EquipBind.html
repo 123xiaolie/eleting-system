@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .equipBind{
+            width: 45%;
+            padding-top: 20px;
+            display: inline-block;
+            min-height: 700px;
+            max-height: 800px;
+            overflow-y:scroll;
+        }
+        .equipBind .tree{
+            display: inline-block;
+        }
+        .equipBind>div{
+            display: inline-block;
+            vertical-align: text-top;
+            word-break: break-all;
+        }
+        .equipBind>div:nth-of-type(2){
+            width: 65%;
+            margin-left: 10px;
+            min-height: 700px;
+            border-left: 1px solid #e6e6e6;
+        }
+        .equipBind>div:nth-of-type(2) h4{
+            border: 1px solid #e6e6e6;
+            margin-left: 35px;
+            box-shadow: 0 0 5px rgba(0,0,0,.12);
+            margin-top: 0;
+            padding: 5px;
+            text-align: center;
+            font-weight: 700;
+            line-height: 30px
+        }
+        @media screen and (min-width: 1400px){
+            .equipBind>div:nth-of-type(2) h4{
+                min-width: 520px;
+            }
+        }
+
+        .equipBind .tree-title {
+            font-size: 14px;
+            display: inline-block;
+            text-decoration: none;
+            vertical-align: top;
+            white-space: nowrap;
+            padding: 0 2px;
+            height: 18px;
+            line-height: 18px;
+        }
+        .equipBind .tree-node {
+            height: 25px;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+        .gui-menuTree .tree-node-hover, .gui-menuTree .tree-node-selected {
+            background: #fff;
+            color: #3c8dbc;
+            font-weight: 700;
+        }
+        /*去掉停车场左边图标*/
+        #menuTt .tree-indent,.tree-file {
+             width: 0px;
+        }
+        #menuTt .tree-title {
+            font-size: 14px;
+            font-weight: 700;
+        }
+        #myDiv{
+            position: absolute;
+            width: 150px;
+            left: -10000px;
+            top:-10000px;
+            background-color: white;
+            box-shadow: 0 3px 5px rgba(0,0,0,.6);
+            border: 1px solid #e6e6e6
+        }
+        #myDiv>ul{
+            padding-left: 0px;
+        }
+        #myDiv>ul>li{
+            width: 100%;
+            margin-top: 5px;
+            padding: 5px;
+            padding-left: 10px;
+            cursor: pointer
+        }
+        #myDiv>ul>li:hover{
+            background-color: #dbdbdb;
+        }
+    </style>
+</head>
+<body oncontextmenu="doNothing()">
+<div class="gui-section">
+    <div  style="" class=" fl equipBind" id='equipBind'>
+        <div>
+            <ul id="menuTt"  class="easyui-tree1 gui-menuTree"
+                data-options="method:'get',animate:true"></ul>
+        </div>
+        <div>
+            <h4 style="">点击右键可解除绑定、右键点击地磁可以设置上线下线</h4>
+            <ul id="menuTt1"  class="easyui-tree1 gui-menuTree"
+                data-options="method:'get',animate:true"></ul>
+        </div>
+        <!--解除绑定-->
+        <div id='myDiv' style="">
+            <ul>
+                <li class="myHover" ng-click="relieveParams()" style="">解除绑定</li>
+                <li class="equipLine" ng-click="ONlineParams()"
+                    style="margin-top: 5px;cursor: pointer;display:none">上线</li>
+                <li class="equipLine" ng-click="DownLineParams()"
+                    style="margin-top: 5px;cursor: pointer;display:none">下线</li>
+            </ul>
+        </div>
+        <!--<input id="cc" class="easyui-combobox" data-options="valueField:'id',textField:'text'">-->
+    </div>
+    <div class="fl" style="padding: 10px;min-height: 875px;width: 55%;max-width: 55%">
+        <p style="padding: 5px 0px;">
+            <label>选择设备类型:</label>
+            <button style="display: none" ng-click="paramsHttp('wg')" class="gui-btn wg" type="button">网关</button>
+            <button style="display: none" ng-click="paramsHttp('zjq')" class="gui-btn zjq" type="button">中继器</button>
+            <button style="display: none" ng-click="paramsHttp('dc')" class="gui-btn dc" type="button">地磁</button>
+            <button style="display: none" ng-click="paramsHttp('tcw')" class="gui-btn tcw" type="button">停车位</button>
+        </p>
+        <div class="tebwg" style="display: none;" >
+            <label >设备厂商</label>
+            <select name="zjq"  class="gui-select">
+                <option value="">全部</option>
+                <option ng-repeat=" o in uniqueMarkFac" value="{{o.providerCode}}">{{o.providerName}}</option>
+            </select>
+            <!--<label>设备型号</label>-->
+            <!--<input type="text" class="gui-input" ng-model="equipManageSeach.firmwareName"/>-->
+            <button class="gui-btn btn-seacher" ng-click="paramsHttpCheck()">查询</button>
+            <table id="wggrid" class="gui-table " >
+            </table>
+        </div>
+        <div class="tebzjq" style="display: none">
+            <select name="zjq"  class="gui-select">
+                <option value="">全部</option>
+                <option ng-repeat=" o in uniqueMarkFac" value="{{o.providerCode}}">{{o.providerName}}</option>
+            </select>
+            <!--<label>设备型号</label>-->
+            <!--<input type="text" class="gui-input" ng-model="equipManageSeach.firmwareName"/>-->
+            <button class="gui-btn btn-seacher" ng-click="paramsHttpCheck()">查询</button>
+            <table id="zjqgrid" class="gui-table " >
+            </table>
+        </div>
+        <div class="tebdc" style="display: none">
+            <label>所属片区</label>
+            <select name="epGemArea" class="gui-select" id="epGemArea">
+                <option value="">全部</option>
+                <option ng-repeat="k in uniqueMarkAreaShow" value="{{k.areaCode}}">{{k.fullName}}</option>
+            </select>
+            <label >设备名称</label>
+            <input type="text" name="epGemName" class="gui-input" ng-input="paramsHttp('dc')"
+                   ng-model="dcgrid.epGemName"/>
+            <button class="gui-btn btn-seacher" ng-click="paramsHttp('dc')">查询</button>
+            <table id="dcgrid" class="gui-table " > </table>
+        </div>
+        <div class="tebtcw" style="display: none">
+            <table id="tcwgrid" class="gui-table " >
+            </table>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

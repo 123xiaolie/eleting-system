@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .gui-NewUl .gui-UL .help-block, .gui-NewUl .gui-ul .help-block {
+            margin-left: 21%;
+        }
+    </style>
+</head>
+<body>
+<div class="gui-section">
+    <div class="gui-seachform">
+        <label>设备厂商</label>
+        <select name="uniqueMarkShow" class="gui-select">
+            <option value="">全部</option>
+            <option ng-repeat="n in uniqueMarkShow" value="{{n.code}}">{{n.name}}</option>
+        </select>
+        <label>设备固件名称</label>
+        <input type="text" class="gui-input" ng-model="equipManageSeach.firmwareName"/>
+        <button class="gui-btn btn-seacher" ng-click="tabChexked()">查询</button>
+    </div>
+    <div class="gui-NewUl">
+        <form action="" id="myform" data-bv-excluded style="margin: 10px 0px;">
+            <ul class="gui-ul clearfix gov-h gui-menuTree listFixed">
+                <li class="form-group">
+                    <label class="ul-label control-label">设备厂商</label>
+                    <select name="provider" id='epuipPdtr'
+                            class="gui-select ">
+                        <option value="">全部</option>
+                        <option ng-repeat="n in uniqueMarkShow" value="{{n.code}}">{{n.name}}</option>
+                    </select>
+                </li>
+                <li class="form-group">
+                    <label class="ul-label control-label">设备固件名称</label>
+                    <input type="text" ng-model="equip.firmwareName" name="myarea"
+                           class="gui-input form-control"
+                           data-bv-notempty="true"
+                           data-bv-notempty-message="设备固件名称不能为空"/>
+                </li>
+                <li class="form-group">
+                    <label class="ul-label control-label">设备关联ID</label>
+                    <input type="text" ng-model="equip.deviceId" class="gui-input form-control" name="deviceId"
+                           data-bv-notempty="true"
+                           data-bv-notempty-message="设备关联ID不能为空"/>
+                </li>
+
+                <!--<li class="form-group">-->
+                <!--<label class="ul-label control-label">设备编号</label>-->
+                <!--<input type="text" name="epDeviceId" oninput='UpdateEpGemName()' ng-model='geoMange.epDeviceId'-->
+                <!--class="gui-input form-control"-->
+                <!--data-bv-notempty="true"-->
+                <!--data-bv-notempty-message="设备编号不能为空"/>-->
+                <!--</li>-->
+                <li class="form-group">
+                    <label class="ul-label control-label">设备固件版本号</label>
+                    <input type="text" ng-model="equip.version" name="version" class="gui-input form-control"
+                           data-bv-notempty="true"
+                           data-bv-notempty-message="设备固件版本号不能为空"
+                           data-bv-stringlength="true"
+                           data-bv-stringlength-max="18"
+                           data-bv-stringlength-message="不能超过18个字符"
+                    />
+                </li>
+                <!--<li class="form-group">-->
+                <!--<label class="ul-label control-label">设备版本</label>-->
+                <!--<input id="epGemFirmwareVer" class="gui-input form-control" ng-model="geoMange.epGemFirmwareVer" name="epGemFirmwareVer"-->
+                <!--data-bv-notempty="true"-->
+                <!--data-bv-notempty-message="设备版本不能为空"/>-->
+                <!--</li>-->
+                <li class="form-group">
+                    <label class="ul-label control-label">上传日期</label>
+                    <input type="text" ng-model="equip.uploadTimeShow" ng-focus="datareset()" readonly
+                           style="background-color: white"
+                           name="uploadTime"
+                           class="gui-input form-control"
+                    />
+                </li>
+                <li class="form-group">
+                    <label class="ul-label control-label">固件下载地址</label>
+                    <input type="text" ng-model="equip.url" name="url" class="gui-input form-control"
+                           data-bv-notempty="true"
+                           data-bv-notempty-message="固件下载地址不能为空"
+                           data-bv-iSurl="true"
+                           data-bv-iSurl-message="格式是：http://www.baidu.com"/>
+                </li>
+
+            </ul>
+            <ul class="gui-ul clearfix gov-h gui-menuTree addMain">
+
+            </ul>
+            <div class="gui-anniu">
+                <button class="gui-btn btn-add addYes" type="button" ng-click="modelShow()">新增</button>
+                <button class="gui-btn btn-update" type="button" ng-click="modelSave()">保存修改</button>
+                <button class="gui-btn btn-repeat" type="button" ng-click="modelRepeat()">重置</button>
+            </div>
+        </form>
+    </div>
+    <table id="grid" class="gui-table ">
+    </table>
+    <!-- add-->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-stylemid">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span
+                            aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">新增设备信息</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="" id="" data-bv-excluded>
+                        <ul class="gui-ul clearfix gov-h main-list">
+                            <li class="form-group">
+                                <label class=" ">设备厂商：</label>
+                                <select name="provider"
+                                        class="gui-select ">
+                                    <option value="">全部</option>
+                                    <option ng-repeat="n in uniqueMarkShow" value="{{n.code}}">{{n.name}}</option>
+                                </select>
+                            </li>
+                            <li class="form-group">
+                                <label class=" ">设备固件名称：</label>
+                                <input type="text" ng-model="equip.firmwareName" name=""/>
+                            </li>
+                            <li class="form-group">
+                                <label class=" ">设备关联ID：</label>
+                                <input type="text" ng-model="equip.deviceId" class=" "/>
+                            </li>
+
+                            <!--<li class="form-group">-->
+                            <!--<label class=" ">设备编号：</label>-->
+                            <!--<input type="text"  ng-model='geoMange.epDeviceId'/>-->
+                            <!--</li>-->
+                            <li class="form-group">
+                                <label class=" ">设备固件版本号：</label>
+                                <input type="text" ng-model="equip.version" name="" class=" "/>
+                            </li>
+                            <!--<li class="form-group">-->
+                            <!--<label class=" ">设备版本：</label>-->
+                            <!--<input type=text  ng-model="geoMange.epGemFirmwareVer" name="epGemFirmwareVer"/>-->
+                            <!--</li>-->
+                            <li class="form-group">
+                                <label class=" ">上传日期：</label>
+                                <input type="text" ng-model="equip.uploadTimeShow"/>
+                            </li>
+                            <li class="form-group">
+                                <label class=" ">固件下载地址：</label>
+                                <input type="text" ng-model="equip.url" name="url" class=" "/>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="gui-btn btn-disable" data-dismiss="modal">关闭</button>
+                    <button type="button" class="gui-btn btn-add addYes" ng-click="equipadd()">确定新增</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- update-->
+    <div class="modal fade" id="myUpdateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-stylemid">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span
+                            aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel2">修改设备信息</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="" id="myUpdateform" data-bv-excluded>
+                        <ul class="gui-ul clearfix gov-h main-list">
+                            <li class="form-group">
+                                <label class=" ">设备厂商：</label>
+                                <select name="provider"
+                                        class="gui-select ">
+                                    <option value="">全部</option>
+                                    <option ng-repeat="n in uniqueMarkShow" value="{{n.code}}">{{n.name}}</option>
+                                </select>
+                            </li>
+                            <li class="form-group">
+                                <label class=" ">设备固件名称：</label>
+                                <input type="text" ng-model="equip.firmwareName" name=""/>
+                            </li>
+                            <li class="form-group">
+                                <label class=" ">设备关联ID：</label>
+                                <input type="text" ng-model="equip.deviceId" class=" "/>
+                            </li>
+
+                            <!--<li class="form-group">-->
+                            <!--<label class=" ">设备编号：</label>-->
+                            <!--<input type="text"  ng-model='geoMange.epDeviceId'/>-->
+                            <!--</li>-->
+                            <li class="form-group">
+                                <label class=" ">设备固件版本号：</label>
+                                <input type="text" ng-model="equip.version" name="" class=" "/>
+                            </li>
+                            <!--<li class="form-group">-->
+                            <!--<label class=" ">设备版本：</label>-->
+                            <!--<input type=text  ng-model="geoMange.epGemFirmwareVer" name="epGemFirmwareVer"/>-->
+                            <!--</li>-->
+                            <li class="form-group">
+                                <label class=" ">上传日期：</label>
+                                <input type="text" ng-model="equip.uploadTimeShow"/>
+                            </li>
+                            <li class="form-group">
+                                <label class=" ">固件下载地址：</label>
+                                <input type="text" ng-model="equip.url" name="url" class=" "/>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="gui-btn btn-disable" data-dismiss="modal">关闭</button>
+                    <button type="button" class="gui-btn btn-add updateYes" ng-click="equipUpdate()">确认修改</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

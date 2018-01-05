@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .box {
+            width: 440px;
+            float: left;
+            margin: 0 20px 0 20px;
+        }
+
+        .box div, .box input {
+            border: 1px solid;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+            width: 100%;
+            padding: 5px;
+            margin: 3px 0 10px 0;
+        }
+
+        .box div {
+            border-color: grey;
+            height: 300px;
+            overflow: auto;
+        }
+
+        div code {
+            display: block;
+        }
+
+        #first div code {
+            -moz-border-radius: 2px;
+            border-radius: 2px;
+            border: 1px solid #eee;
+            margin-bottom: 5px;
+        }
+
+        #second div {
+            font-size: 0.8em;
+        }
+        .gui-ul .ul-label {
+            width: 20%;
+            text-align: right;
+            padding-right: 15px;
+        }
+        .gui-UL .help-block, .gui-ul .help-block {
+            margin-left: 11%;
+        }
+        .gui-NewUl .gui-UL .help-block, .gui-NewUl .gui-ul .help-block {
+            margin-left: 21%;
+        }
+        .gui-ul li select {
+            min-width: 130px;
+        }
+        .addMain .gui-select{
+            min-width: 136px;
+        }
+    </style>
+</head>
+<body>
+<div class="gui-section">
+    <div class="gui-seachform">
+        <label >设备生产商</label>
+        <select name="uniqueMarkShow"  class="gui-select">
+            <option value="">全部</option>
+            <option ng-repeat="n in uniqueMarkShow" value="{{n.code}}">{{n.name}}</option>
+        </select>
+        <label >设备型号</label><input type="text" class="gui-input" ng-model="geoMangeseach.epGemModelNo"/>
+        <label >设备编号</label><input type="text" class="gui-input" ng-model="geoMangeseach.epDeviceId"/>
+        <button class="gui-btn btn-seacher" ng-click="geotabChexked()">查询</button>
+    </div>
+    <div class="gui-NewUl">
+        <form action="" id="myform" data-bv-excluded style="margin: 10px 0px;">
+            <ul class="gui-ul clearfix gov-h gui-menuTree listFixed">
+                <li class="form-group">
+                    <label class="ul-label control-label">设备厂商</label>
+                    <select name="epGemPdtr" onchange='modelCodeSea()' id='epGemPdtr'
+                            ng-model='geoMange.epProvideridId'
+                            class="gui-select">
+                        <option value="">请选择厂商</option>
+                        <option ng-repeat="n in uniqueMarkShow" value="{{n.code}}">{{n.name}}</option>
+                    </select>
+                </li>
+                <li class="form-group">
+                    <label class="ul-label control-label">选择片区</label>
+                    <select name="epGemArea"  id='epGemArea'
+                            ng-model='geoMange.epGemArea'
+                            class="gui-select">
+                        <option value="">无</option>
+                        <option ng-repeat="n in uniqueMarkAreaShow" value="{{n.areaCode}}">{{n.fullName}}</option>
+                    </select>
+                </li>
+                <li class="form-group">
+                    <label class="ul-label control-label">设备型号</label>
+                    <select name="epGemModelNo"  onchange="paramsJsonSea()" id='epGemModelNo'
+                            class="gui-select">
+                        <option value="">无</option>
+                        <!--<option ng-repeat="n in uniqueModelShow" value="{{n.model}}">{{n.model}}</option>-->
+                    </select>
+                </li>
+                <li class="form-group">
+                    <label class="ul-label control-label">设备编号</label>
+                    <input type="text" name="epDeviceId" oninput='UpdateEpGemName()' ng-model='geoMange.epDeviceId'
+                           class="gui-input form-control"
+                           data-bv-notempty="true"
+                           data-bv-notempty-message="设备编号不能为空"/>
+                </li>
+                <li class="form-group">
+                    <label class="ul-label control-label">设备名称</label>
+                    <input type="text" name="epGemName" class="gui-input form-control" readonly/>
+                </li>
+                <li class="form-group">
+                    <label class="ul-label control-label">设备版本</label>
+                    <input id="epGemFirmwareVer" class="gui-input form-control" ng-model="geoMange.epGemFirmwareVer" name="epGemFirmwareVer"
+                           data-bv-notempty="true"
+                           data-bv-notempty-message="设备版本不能为空"/>
+                </li>
+                <li class="form-group">
+                    <label class="ul-label control-label">上线时间</label>
+                    <input  name="epGemOnlineTime" readonly class="gui-input form-control" ng-model="geoMange.epGemOnlineTime"
+                           />
+                </li>
+                <li class="form-group">
+                    <label class="ul-label control-label">下线时间</label>
+                    <input  class="gui-input form-control"  name="epGemOfflineTime" readonly ng-model="geoMange.epGemOfflineTime"
+                          />
+                </li>
+
+            </ul>
+            <ul class="gui-ul clearfix gov-h gui-menuTree addMain">
+
+            </ul>
+            <div class="gui-anniu">
+                <button class="gui-btn btn-add " type="button" id='add'>添加一行参数</button>
+                <button class="gui-btn btn-add addYes"  type="button" ng-click="modelShow()">新增</button>
+                <button class="gui-btn btn-update"  type="button" ng-click="modelSave()">保存修改</button>
+                <button class="gui-btn btn-repeat"  type="button" ng-click="modelRepeat()">重置</button>
+            </div>
+        </form>
+    </div>
+    <table id="grid" class="gui-table " >
+    </table>
+    <!-- check-->
+    <div class="modal fade" id="mycheckModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true" >
+        <div class="modal-dialog modal-style" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" >查看设备信息</h4>
+                </div>
+                <div class="modal-body modal-style">
+                    <form action=""  data-bv-excluded>
+                        <ul class="gui-UL clearfix gov-h">
+                            <li class="">
+                                <div class="form-group">
+                                    <label class="ul-label control-label">设备名字</label>
+                                    <input type="text" ng-model="geoMange1.epGemName" name="myarea"
+                                           class="gui-input form-control"
+                                          />
+                                </div>
+                                <div class="form-group">
+                                    <label class="ul-label control-label">设备厂商</label>
+                                    <input type="text" ng-model="geoMange1.epGemPdtr" name="myarea"
+                                           class="gui-input form-control"/>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="form-group">
+                                    <label class="ul-label control-label">厂商ID号</label>
+                                    <input type="text" ng-model="geoMange1.epProvideridId" name="myarea"
+                                           class="gui-input form-control"/>
+                                </div>
+                                <div class="form-group">
+                                    <label class="ul-label control-label">所属片区</label>
+                                    <select  name="epGemArea1"
+                                             ng-model="geoMange1.epGemArea"
+                                            class="gui-select">
+                                        <option value="">无</option>
+                                        <option ng-repeat="n in uniqueMarkAreaShow" value="{{n.areaCode}}">{{n.fullName}}</option>
+                                    </select>
+                                    <!--<input type="text" class="gui-input form-control" name="epGemArea1"-->
+                                           <!--ng-model="geoMange1.areaName"/>-->
+                                </div>
+                            </li>
+                            <li class="">
+                                <div class="form-group">
+                                    <label class="ul-label control-label">设备上线时间</label>
+                                    <input type="text" ng-model="geoMange1.epGemOnlineTime" name="myarea"
+                                           class="gui-input form-control"/>
+                                </div>
+                                <div class="form-group">
+                                    <label class="ul-label control-label">设备下线时间</label>
+                                    <input type="text" ng-model="geoMange1.epGemOfflineTime" name="myarea"
+                                           class="gui-input form-control"/>
+                                </div>
+
+                            <li class="">
+                            </li>
+                            <li class="">
+                                <div class="form-group">
+                                    <label class="ul-label control-label">初始化状态</label>
+                                    <input type="text" class="gui-input form-control" name="curStatus1"
+                                           ng-model="geoMange1.curStatus"/>
+                                </div>
+                                <div class="form-group">
+                                    <label class="ul-label control-label">业务状态</label>
+                                    <input type="text" class="gui-input form-control" name="busStatus1"
+                                           ng-model="geoMange1.busStatus"/>
+                                </div>
+                            </li>
+                            <li class="form-group">
+                                <div class="form-group">
+                                    <label class="ul-label control-label">设备版本</label>
+                                    <input  class="gui-input form-control" ng-model="geoMange1.epGemFirmwareVer"
+                                            name="epGemFirmwareVer1"/>
+                                </div>
+                                <label class="ul-label control-label"></label>
+
+                            </li>
+                        </ul>
+                        <ul class="gui-UL clearfix gov-h addCheckMain">
+
+                        </ul>
+                    </form>
+                </div>
+                <div class="modal-footer" align="center">
+                    <button type="button" class="gui-btn"  data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--rabbitMQ tipBox-->
+    <div id="tipBox" >
+        <div class="tip-header">
+            <span>消息提示</span>
+            <button ng-click="closeTip()">X</button>
+        </div>
+        <p></p>
+    </div>
+</div>
+<!--addmain-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+    <div class="modal-dialog modal-stylemid" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">新增内容</h4>
+            </div>
+            <div class="modal-body">
+                <form action=""  data-bv-excluded style="margin: 10px 0px;">
+                    <ul class="gui-ul clearfix gov-h main-list">
+                        <li class="form-group">
+                            <label class=" ">设备厂商：</label>
+                            <input type="text"  ng-model="geoMange.epGemPdtr">
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">所属片区：</label>
+                            <select name="epGemArea"
+                                    ng-model='geoMange.epGemArea'
+                                    class="gui-select">
+                                <option value="">无</option>
+                                <option ng-repeat="n in uniqueMarkAreaShow" value="{{n.areaCode}}">{{n.fullName}}</option>
+                            </select>
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">设备型号：</label>
+                            <input type="text"  ng-model="geoMange.epGemModelNo">
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">设备编号：</label>
+                            <input type="text"  oninput='UpdateEpGemName()' ng-model='geoMange.epDeviceId'/>
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">设备名称：</label>
+                            <input type="text" ng-model="geoMange.epGemName"  />
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">设备版本：</label>
+                            <input  ng-model="geoMange.epGemFirmwareVer" name="epGemFirmwareVer"
+                                   />
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">设备参数：</label>
+                            {{geoMange.paramsJson}}
+                        </li>
+                    </ul>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="gui-btn btn-disable"  data-dismiss="modal">关闭</button>
+                <button type="button" class="gui-btn btn-add " ng-click="modelShowAdd()" >确认新增</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--updatemain-->
+<div class="modal fade" id="myUpdateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+    <div class="modal-dialog modal-stylemid" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="">修改内容</h4>
+            </div>
+            <div class="modal-body">
+                <form action=""  data-bv-excluded style="margin: 10px 0px;">
+                    <ul class="gui-ul clearfix gov-h main-list">
+                        <li class="form-group">
+                            <label class=" ">设备厂商：</label>
+                            <input type="text"  ng-model="geoMange.epGemPdtr">
+                        </li>
+                        <li class="form-group">
+                            <label class="ul-label control-label">所属片区：</label>
+                            <select name="epGemArea"
+                                    ng-model='geoMange.epGemArea'
+                                    class="gui-select">
+                                <option value="">无</option>
+                                <option ng-repeat="n in uniqueMarkAreaShow" value="{{n.areaCode}}">{{n.fullName}}</option>
+                            </select>
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">设备型号：</label>
+                            <input type="text"  ng-model="geoMange.epGemModelNo">
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">设备编号：</label>
+                            <input type="text"  oninput='UpdateEpGemName()' ng-model='geoMange.epDeviceId'/>
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">设备名称：</label>
+                            <input type="text" ng-model="geoMange.epGemName"  />
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">设备版本：</label>
+                            <input  ng-model="geoMange.epGemFirmwareVer" name="epGemFirmwareVer"
+                            />
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">设备参数：</label>
+                            {{geoMange.paramsJson}}
+                        </li>
+                    </ul>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="gui-btn btn-disable"  data-dismiss="modal">关闭</button>
+                <button type="button" class="gui-btn btn-add " ng-click="modelShowSave()" >确认修改</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

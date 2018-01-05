@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        div .jbox span.jbox-icon {
+            background: url("../../assets/imgs/icon/warning.png") no-repeat scroll 0 0 ;
+        }
+        /*div.jbox .jbox-content {*/
+            /*line-height:30px;*/
+        /*}*/
+        .gui-NewUl .gui-UL .help-block, .gui-NewUl .gui-ul .help-block {
+            margin-left: 21%;
+        }
+    </style>
+</head>
+<body>
+<div class="gui-section">
+    <div class="gui-seachform">
+        <label ng-show="geoIsshow" for="">检测人</label><input ng-show='geoIsshow' type="text" class="gui-input" ng-model="geoDetectionMangeseach.checkParamId"/>
+        <label for="">设备id</label><input type="text" class="gui-input" ng-model="geoDetectionMangeseach.deviceId"/>
+        <label for="">开始时间</label>
+        <input id="beginDate" style="cursor: pointer" ng-model="geoDetectionMangeseach.beginDate" name="beginDate" readonly="readonly"
+               class="Wdate gui-input" type="text" onFocus="var endDate=$dp.$('lessDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'lessDate\')}'})"/>
+        <label for="">截止时间</label>
+        <input id="lessDate" class="Wdate gui-input"  name="endDate" ng-model="geoDetectionMangeseach.endDate" style="cursor: pointer" readonly="readonly" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'beginDate\')}'})"/>
+        <!--<label for="">检测结果</label><input type="text" class="gui-input" ng-model="geoDetectionMangeseach.provider"/>-->
+        <button class="gui-btn btn-seacher" ng-click="geoDettabChexked()">查询</button>
+    </div>
+    <div class="gui-NewUl">
+        <form action="" id="myform" data-bv-excluded style="margin: 10px 0px;">
+            <ul class="gui-ul clearfix gov-h gui-menuTree listFixed">
+                <li class="form-group">
+                    <label class="ul-label control-label">设备厂商</label>
+                    <select name="provider"  class="gui-select" id="provider" ng-model="geoDetMange.provider">
+                        <option value="">请选择厂商</option>
+                        <option ng-repeat="n in equipModelFacShow" value="{{n.name}}">{{n.name}}</option>
+                    </select>
+                </li>
+                <li class="form-group">
+                    <label class="ul-label control-label">设备id</label>
+                    <input type="text" ng-model="geoDetMange.deviceId" name="deviceId"
+                           class="gui-input form-control"
+                           data-bv-notempty="true"
+                           data-bv-notempty-message="设备id不能为空"/>
+                </li>
+
+                <li class="form-group">
+                    <label class="ul-label control-label">检测结果</label>
+                    <input type="text" ng-model="geoDetMange.result" name="result"
+                           class="gui-input form-control"
+                           data-bv-notempty="true"
+                           data-bv-notempty-message="检测结果不能为空"/>
+                </li>
+                <li class="form-group">
+                    <label class="ul-label control-label">检测日期</label>
+                    <input name="checkDate" ng-model="geoDetMange.checkDate"
+                           type="text" size="15" class="Wdate gui-input form-control" onblur="dataValidator('myform')"  onfocus = "WdatePicker({dateFmt:'yyyy-MM-dd '}) "
+                           data-bv-notempty="true"
+                           data-bv-notempty-message="检测日期不能为空"/>
+                </li>
+            </ul>
+            <ul class="gui-ul clearfix gov-h gui-menuTree addMain">
+
+            </ul>
+            <div class="gui-anniu">
+                <button class="gui-btn btn-add addYes" type="button" ng-click="modelShow()">新增</button>
+                <button class="gui-btn btn-update" type="button" ng-click="modelSave()">保存修改</button>
+                <button class="gui-btn btn-repeat" type="button" ng-click="modelRepeat()">重置</button>
+            </div>
+        </form>
+    </div>
+    <table id="grid" class="gui-table " >
+    </table>
+    <!-- add-->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+        <div class="modal-dialog modal-stylemid" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">新增地磁设备检测信息</h4>
+                </div>
+                <div class="modal-body ">
+                    <form action="" id="" data-bv-excluded>
+                        <ul class="gui-ul clearfix gov-h main-list">
+                            <li class="form-group">
+                                <label class=" ">设备厂商：</label>
+                                <select name="provider"  c  ng-model="geoDetMange.provider">
+                                    <option value="">请选择厂商</option>
+                                    <option ng-repeat="n in equipModelFacShow" value="{{n.name}}">{{n.name}}</option>
+                                </select>
+                            </li>
+                            <li class="form-group">
+                                <label class=" ">设备id：</label>
+                                <input type="text" ng-model="geoDetMange.deviceId"/>
+                            </li>
+
+                            <li class="form-group">
+                                <label class=" ">检测结果：</label>
+                                <input type="text" ng-model="geoDetMange.result"/>
+                            </li>
+                            <li class="form-group">
+                                <label class=" ">检测日期：</label>
+                                <input name="checkDate" ng-model="geoDetMange.checkDate"/>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="gui-btn btn-disable"  data-dismiss="modal">关闭</button>
+                    <button type="button" class="gui-btn btn-add addYes" ng-click="geoadd()" >确定新增</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- update-->
+    <div class="modal fade" id="myUpdateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+        <div class="modal-dialog modal-stylemid" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" >修改地磁设备检测信息</h4>
+                </div>
+                <div class="modal-body ">
+                    <form action="" id="myupdateform" data-bv-excluded>
+                        <ul class="gui-ul clearfix gov-h">
+                            <ul class="gui-ul clearfix gov-h main-list">
+                                <li class="form-group">
+                                    <label class=" ">设备厂商：</label>
+                                    <select name="provider"  c  ng-model="geoDetMange.provider">
+                                        <option value="">请选择厂商</option>
+                                        <option ng-repeat="n in equipModelFacShow" value="{{n.name}}">{{n.name}}</option>
+                                    </select>
+                                </li>
+                                <li class="form-group">
+                                    <label class=" ">设备id：</label>
+                                    <input type="text" ng-model="geoDetMange.deviceId"/>
+                                </li>
+
+                                <li class="form-group">
+                                    <label class=" ">检测结果：</label>
+                                    <input type="text" ng-model="geoDetMange.result"/>
+                                </li>
+                                <li class="form-group">
+                                    <label class=" ">检测日期：</label>
+                                    <input name="checkDate" ng-model="geoDetMange.checkDate"/>
+                                </li>
+                            </ul>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="gui-btn btn-disable"  data-dismiss="modal">关闭</button>
+                    <button type="button" class="gui-btn btn-add updateYes" ng-click="geoUpdate()" >确认修改</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

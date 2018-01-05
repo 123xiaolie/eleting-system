@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div class="gui-section">
+    <div class="gui-seachform">
+        <label for="">停车场名字</label><input type="text" class="gui-input" ng-model="parkSpaceGroupManageseach.pkName"/>
+        <button class="gui-btn btn-seacher" ng-click="parkSGtabChexked()">查询</button>
+        <button class="gui-btn btn-add"  data-toggle="modal" data-target="#myModal" ng-click="modelShow()">新增</button>
+    </div>
+    <table id="grid" class="gui-table " >
+    </table>
+    <!-- add-->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+        <div class="modal-dialog modal-style" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">新增停车位组信息</h4>
+                </div>
+                <div class="modal-body modal-style">
+                    <form action="" id="myform" data-bv-excluded>
+                            <ul class="gui-ul">
+                                <li class="form-group">
+                                    <label class="ul-label control-label">停车位组名称</label>
+                                    <input type="text" placeholder="格式:2组" style="width: 520px;" ng-model="parkSpaceGroupManage.pkSpGroupName" name="pkSpGroupName"
+                                           class="gui-input form-control"
+                                           data-bv-notempty="true"
+                                           data-bv-notempty-message="停车位组名称不能为空"/>
+                                </li>
+                                <li class="form-group">
+                                    <label class="ul-label control-label">停车场名称</label>
+                                    <input type="text" style="width: 520px;" readonly ng-model="parkSpaceGroupManage.pkName"
+                                           name="pkName"
+                                           class="gui-input form-control"
+                                           data-bv-notempty="true"
+                                           data-bv-notempty-message="停车场id不能为空"/>
+
+                                </li>
+                            </ul>
+                    </form>
+                    <table id="gridStop" class="gui-table " >
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="gui-btn"  data-dismiss="modal">关闭</button>
+                    <button type="button" class="gui-btn addYes" ng-click="geoadd()" >确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- update-->
+    <div class="modal fade" id="myUpdateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+        <div class="modal-dialog modal-style" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="">修改停车位组信息</h4>
+                </div>
+                <div class="modal-body modal-style">
+                    <form action="" id="myupdateform" data-bv-excluded>
+                        <ul class="gui-ul">
+                            <li class="form-group">
+                                <label class="ul-label control-label">停车位组名称</label>
+                                <input type="text" placeholder="格式:2组" style="width: 520px;" ng-model="parkSpaceGroupManage1.pkSpGroupName" name="pkSpGroupName1"
+                                       class="gui-input form-control"
+                                       data-bv-notempty="true"
+                                       data-bv-notempty-message="停车位组名称不能为空"/>
+                            </li>
+                            <li class="form-group">
+                                <label class="ul-label control-label">停车场名字</label>
+                                <input type="text" style="width: 520px;" readonly
+                                       ng-model="parkSpaceGroupManage1.pkName"
+                                       name="pkName1"
+                                       class="gui-input form-control"
+                                       data-bv-notempty="true"
+                                       data-bv-notempty-message="停车场id不能为空"/>
+
+                            </li>
+                        </ul>
+                    </form>
+                    <table id="gridUpdateStop" class="gui-table " >
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="gui-btn"  data-dismiss="modal">关闭</button>
+                    <button type="button" class="gui-btn updateYes" ng-click="patroUpdate()" >确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

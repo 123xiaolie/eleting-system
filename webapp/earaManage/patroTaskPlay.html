@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div class="gui-section">
+    <div class="gui-seachform">
+        <label for="">巡视员工号</label><input type="text" class="gui-input" ng-model="patroTaskMangeseach.ispctIfId"/>
+        <label for="">巡视员名字</label><input type="text" class="gui-input" ng-model="patroTaskMangeseach.ispctName"/>
+        <label for="">停车场</label><input type="text" class="gui-input" ng-model="patroTaskMangeseach.pkSpName"/>
+    </div>
+    <div class="gui-seachform">
+        <label for="">开 始 日 期</label>
+        <input id="beginDate" name="fistDate" style="cursor: pointer" readonly="readonly" class="Wdate gui-input"
+               type="text" onFocus="var endDate=$dp.$('lessDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'lessDate\')}'})"/>
+        <label for="">截 止 日 期</label><input id="lessDate" name="listDate"  class="Wdate gui-input" style="cursor: pointer" readonly="readonly" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'beginDate\')}'})"/>
+        <button class="gui-btn btn-seacher" ng-click="partroTasktabChexked()">查询</button>
+        <button class="gui-btn btn-add"  data-toggle="modal" data-target="#myModal" ng-click="modelShow()">新增</button>
+    </div>
+    <table id="grid" class="gui-table " >
+    </table>
+    <!-- add-->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+        <div class="modal-dialog modal-style" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">新增巡视员计划</h4>
+                </div>
+                <div class="modal-body modal-style">
+                    <form action="" id="myform" data-bv-excluded>
+                        <ul class="gui-UL clearfix gov-h">
+                            <li class="">
+                                <div class="form-group">
+                                    <label class="ul-label control-label">巡视员id</label>
+                                    <input type="text" readonly  ng-model="patroTaskMange.ispctIfId"
+                                           name="ispctIfId"
+                                           class="gui-input form-control"
+                                           data-bv-notempty="true"
+                                           data-bv-notempty-message="巡视员id不能为空"/>
+                                </div>
+                                <div class="form-group">
+                                    <label class="ul-label control-label">巡视员名字</label>
+                                    <input type="text" readonly ng-model="patroTaskMange.ispctName" name="ispctName"
+                                           class="gui-input form-control"
+                                           data-bv-notempty="true"
+                                           data-bv-notempty-message="巡视员名字不能为空"/>
+                                </div>
+                            </li>
+                            <li class="">
+                                <div class="form-group">
+                                    <label class="ul-label control-label">巡视员工作计划工作日期</label>
+                                    <input type="text"  name="ispctWkSchWkDate"
+                                           style="position: relative"
+                                           value="2017-03-20"
+                                           class="gui-input form-control jqPickmeup Wdate"
+                                           />
+                                </div>
+                                <div class="form-group">
+                                    <label class="ul-label control-label">停车场名字</label>
+                                    <input type="text" readonly ng-model="patroTaskMange.pkName" name="pkName"
+                                           class="gui-input form-control"
+                                           data-bv-notempty="true"
+                                           data-bv-notempty-message="停车场信息ID不能为空"/>
+                                    <input type="text" name="pkIfId" style="display: none"/>
+                                </div>
+                            </li>
+                            <li class="">
+
+                                <div class="form-group">
+                                    <label class="ul-label control-label">负责片区</label>
+                                    <input type="text"  readonly
+                                           name="areaName"
+                                           class="gui-input form-control"/>
+                                    <input type="text"  readonly style="display: none"
+                                           name="pkArea"
+                                           class="gui-input form-control"/>
+                                </div>
+                                <div class="form-group">
+                                    <label class="ul-label control-label">停车场所在街道</label>
+                                    <input type="text" ng-model="patroTaskMange.pkPosStreet" name="pkPosStreet"
+                                           class="gui-input form-control"
+                                           data-bv-notempty="true"
+                                           data-bv-notempty-message="停车场所在街道不能为空"/>
+                                </div>
+                            </li>
+                            <li class="">
+                                <div class="form-group">
+                                    <label class="ul-label control-label">停车位组</label>
+                                    <select name="pkSpGroupId"  id='pkSpGroupId' class="gui-select " >
+                                        <option ng-repeat="n in epPdaIfIdGridStopShow" value="{{n.id}}">{{n.pkSpGroupName}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="ul-label control-label">PDA设备名字</label>
+                                    <input type="text" readonly name="epPdaIfName"
+                                           class="gui-input form-control"
+                                           />
+                                    <input type="text" name="epPdaIfId" style="display: none"/>
+                                </div>
+                            </li>
+                            <li style="text-align: right">
+                                <button type="button" class="gui-btn "  data-dismiss="modal">关闭</button>
+                                <button type="button" class="gui-btn addYes " ng-click="geoadd()" >确定</button>
+                            </li>
+                        </ul>
+                    </form>
+                    <div style="border-top: 1px solid #9e9e9e;padding-top: 10px;">
+                        <label for="">停车场名字</label>
+                        <input type="text" class="gui-input"ng-model="epPdaIfIdGridStop.pkName"/>
+                        <button class="gui-btn btn-seacher" ng-click="tabChexkedAddSp()">查询</button>
+                        <table id="epPdaIfIdGridStop" class="gui-table">
+
+                        </table>
+                    </div>
+                   <div id="epPdaIfIdGridFa" style="border-top: 1px solid #9e9e9e;border-bottom: 1px solid #9e9e9e;padding: 5px 0px;margin: 10px 0px;display: none;">
+                       <label for="">PDA设备名称</label>
+                       <input type="text" class="gui-input"ng-model="epPdaIfIdGridStop.epPdaName"/>
+                       <button class="gui-btn btn-seacher" ng-click="tabChexkedAddPDA()">查询</button>
+                       <table id="epPdaIfIdGrid" class="gui-table">
+                       </table>
+                   </div>
+
+
+                    <label for="">巡视员工号</label><input type="text" class="gui-input" ng-model="epPdaIfIdGrid1.ispctWkId"/>
+                    <label for="">巡视员名字</label><input type="text" class="gui-input" ng-model="epPdaIfIdGrid1.ispctName"/>
+                    <button class="gui-btn btn-seacher" ng-click="tabChexkedAddPer()">查询</button>
+                    <table id="epPdaIfIdGrid1" class="gui-table">
+
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="gui-btn"  data-dismiss="modal">关闭</button>
+                    <button type="button" class="gui-btn addYes" ng-click="geoadd()" >确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- update-->
+    <div class="modal fade" id="myUpdateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+        <div class="modal-dialog modal-style" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="">修改巡视员计划</h4>
+                </div>
+                <div class="modal-body modal-style">
+                    <form action="" id="myupdateform" data-bv-excluded>
+                        <ul class="gui-UL clearfix gov-h">
+                            <li class="">
+                                <div class="form-group">
+                                    <label class="ul-label control-label">巡视员id</label>
+                                    <input type="text" readonly ng-model="patroTaskMange1.ispctIfId" name="ispctIfId1"
+                                           class="gui-input form-control"
+                                           data-bv-notempty="true"
+                                           data-bv-notempty-message="巡视员id不能为空"/>
+                                </div>
+                                <div class="form-group">
+                                    <label class="ul-label control-label">巡视员名字</label>
+                                    <input type="text" readonly ng-model="patroTaskMange1.ispctName" name="ispctName1"
+                                           class="gui-input form-control"
+                                           data-bv-notempty="true"
+                                           data-bv-notempty-message="巡视员名字不能为空"/>
+                                </div>
+                            </li>
+                            <li class="">
+                                <div class="form-group">
+                                    <label class="ul-label control-label">巡视员工作计划工作日期</label>
+                                    <input name="ispctWkSchWkDate1" ng-model="patroTaskMange1.ispctWkSchWkDate" type="text" size="15" class="Wdate gui-input form-control"  onfocus = "WdatePicker({dateFmt:'yyyy-MM-dd '}) "
+                                           data-bv-notempty="true"
+                                           data-bv-notempty-message="巡视员工作计划工作日期不能为空"/>
+                                </div>
+                                <div class="form-group">
+                                    <label class="ul-label control-label">停车场名字</label>
+                                    <input type="text" readonly ng-model="patroTaskMange1.pkSpName" name="pkSpName1"
+                                           class="gui-input form-control"
+                                           data-bv-notempty="true"
+                                           data-bv-notempty-message="停车场信息ID不能为空"/>
+                                    <input type="text" name="pkIfId1" style="display: none"/>
+                                </div>
+                            </li>
+                            <li class="">
+
+                                <div class="form-group">
+                                    <label class="ul-label control-label">负责片区</label>
+                                    <input type="text"  readonly
+                                           name="areaName1"
+                                           class="gui-input form-control"/>
+                                    <input type="text" readonly  style="display: none"
+                                           name="pkArea1"
+                                           class="gui-input form-control"
+                                           />
+                                </div>
+                                <div class="form-group">
+                                    <label class="ul-label control-label">停车场所在街道</label>
+                                    <input type="text" ng-model="patroTaskMange1.pkPosStreet" name="pkPosStreet1"
+                                           class="gui-input form-control"
+                                           data-bv-notempty="true"
+                                           data-bv-notempty-message="停车场所在街道不能为空"/>
+                                </div>
+                            </li>
+                            <li class="">
+                                <div class="form-group">
+                                    <label class="ul-label control-label">停车位组</label>
+                                    <select name="pkSpGroupId1"  id='pkSpGroupId1'
+                                            class="gui-select "
+                                            >
+                                        <!--<option ng-repeat="n in epPdaIfIdGridUpdatGroup" value="{{n.id}}">{{n.pkSpGroupName}}</option>-->
+                                    </select>
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="ul-label control-label">PDA设备名字</label>
+                                    <input type="text" readonly  name="epPdaIfName1"
+                                           class="gui-input form-control"
+                                           data-bv-notempty="true"
+                                           data-bv-notempty-message="PDA设备ID不能为空"/>
+                                    <input type="text" name="epPdaIfId1" style="display: none"/>
+                                </div>
+                            </li>
+                            <li style="text-align: right">
+                                <button type="button" class="gui-btn"  data-dismiss="modal">关闭</button>
+                                <button type="button" class="gui-btn updateYes" ng-click="geoUpdate()" >确定</button>
+                            </li>
+                        </ul>
+                    </form>
+                    <div style="border-top: 1px solid #9e9e9e;padding-top: 10px;">
+                        <label for="">停车场名字</label>
+                        <input type="text" class="gui-input"ng-model="epPdaIfIdGridupdetStop.pkName"/>
+                        <button class="gui-btn btn-seacher" ng-click="tabChexkedUpdateSp()">查询</button>
+                        <table id="epPdaIfIdGridupdetStop" class="gui-table">
+
+                        </table>
+                    </div>
+                    <div id="epPdaIfIdGridupdetFa" style="border-top: 1px solid #9e9e9e;border-bottom: 1px solid #9e9e9e;padding: 5px 0px;margin: 10px 0px;display: none">
+
+                        <label for="">PDA设备名称</label>
+                        <input type="text" class="gui-input"ng-model="epPdaIfIdGridupdetStop.epPdaName"/>
+                        <button class="gui-btn btn-seacher" ng-click="tabChexkedUpdatePDA()">查询</button>
+                        <table class="gui-table" id="epPdaIfIdGridupdet">
+
+                        </table>
+                    </div>
+                    <label for="">巡视员工号</label><input type="text" class="gui-input" ng-model="epPdaIfIdGridPer.ispctWkId"/>
+                    <label for="">巡视员名字</label><input type="text" class="gui-input" ng-model="epPdaIfIdGridPer.ispctName"/>
+                    <button class="gui-btn btn-seacher" ng-click="tabChexkedUpdatePer()">查询</button>
+                    <table id="epPdaIfIdGridupdet1" class="gui-table">
+
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="gui-btn"  data-dismiss="modal">关闭</button>
+                    <button type="button" class="gui-btn updateYes" ng-click="geoUpdate()" >确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

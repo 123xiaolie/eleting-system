@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div class="gui-section">
+    <div class="gui-seachform">
+        <label for="">停车场名字</label><input type="text" class="gui-input" ng-model="parkMangeMangeseach.pkName"/>
+        <label for="">所属区域</label>
+        <select    class="gui-select" style="min-width: 168px; " ng-model='parkMangeMangeseach.pkPosAreaCode'>
+            <option value="">全部</option>
+            <option ng-repeat="n in uniqueMarkShow" value="{{n.areaCode}}">{{n.fullName}}</option>
+        </select>
+        <!--<label for="">停车场信息ID</label><input type="text" class="gui-input" ng-model="parkMangeMangeseach.pkIfId"/>-->
+        <button class="gui-btn btn-seacher" ng-click="parktabChexked()">查询</button>
+        <button class="gui-btn btn-add"  data-toggle="modal" data-target="#myMapModal" ng-click="modelShow()">新增
+        </button>
+    </div>
+    <table id="grid" class="gui-table " >
+    </table>
+    <!-- add-->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+        <div class="modal-dialog modal-style" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">新增停车场信息</h4>
+                </div>
+                <div class="modal-body modal-style">
+                    <form action="" id="myform" data-bv-excluded>
+                        <ul class="gui-UL clearfix gov-h">
+                            <li class="">
+                                <div class="form-group">
+                                    <label class="ul-label control-label">停车场名字</label>
+                                    <input type="text" ng-model="parkMange.pkName" name="pkName"
+                                           class="gui-input form-control"
+                                           data-bv-notempty="true"
+                                           data-bv-notempty-message="停车场名字不能为空"/>
+                                </div>
+                                <div class="form-group">
+                                    <label class="ul-label control-label">停车场编号</label>
+                                    <input type="text" ng-model="parkMange.parkingCode" name="parkingCode"
+                                           placeholder="例如：001"
+                                           class="gui-input form-control"
+                                           data-bv-notempty="true"
+                                           data-bv-notempty-message="停车场编号不能为空"/>
+                                </div>
+
+                            </li>
+                            <li class="">
+                                <div class="form-group">
+                                    <label class="ul-label control-label">城市编号</label>
+                                    <input type="text" ng-model="parkMange.cityCode"placeholder="例如：5101"
+                                           name="cityCode"
+                                           class="gui-input form-control"
+                                           data-bv-notempty="true"
+                                           data-bv-notempty-message="城市编号不能为空"/>
+                                </div>
+                                <div class="form-group">
+                                    <label class="ul-label control-label">停车场地理电子围栏</label>
+                                    <input type="text" ng-model="parkMange.pkGpsIfEnclosure" readonly name="pkGpsIfEnclosure"
+                                           class="gui-input form-control"
+                                           data-bv-notempty="true"
+                                           data-bv-note mpty-message="停车场地理电子围栏不能为空"/>
+                                </div>
+
+                            </li>
+                            <li class="">
+                                <div class="form-group">
+                                    <label class="ul-label control-label">停车位数量</label>
+                                    <input type="text" ng-model="parkMange.pkSpAmnt" name="pkSpAmnt"
+                                           class="gui-input form-control"
+                                           data-bv-notempty="true"
+                                           data-bv-notempty-message="停车位数量不能为空"
+                                           data-bv-integer="true"
+                                           data-bv-integer-message="请输入整数"
+                                            />
+                                </div>
+                                <div class="form-group">
+                                    <label class="ul-label control-label">停车场所在片区</label>
+                                    <select name="pkPosAreaCode" class="gui-select" id="pkPosAreaCode">
+                                        <option ng-repeat="n in uniqueMarkShow" value="{{n.areaCode}}">{{n.fullName}}</option>
+                                    </select>
+                                </div>
+                            </li>
+                            <li class="">
+
+                                <div class="form-group">
+                                    <label class="ul-label control-label">停车场所在街道</label>
+                                    <select name="pkPosStreet" style="width: 296px;"
+                                            class="gui-select "
+                                            data-bv-notempty="true"
+                                            data-bv-notempty-message="停车场所在街道不能为空"></select>
+                                    <!--<input type="text"  name="pkPosStreet"-->
+                                           <!--class="gui-input "-->
+                                           <!--/>-->
+                                </div>
+                                <div class="form-group">
+                                    <label class="ul-label control-label">停车场状态</label>
+                                    <select name="pkStatus" style="width: 296px;" class="gui-select ">
+                                        <option value="0" >启用</option>
+                                        <option value="1">停用</option>
+                                    </select>
+                                </div>
+                            </li>
+                            <li class="">
+                                <div class="form-group">
+                                    <label class="ul-label control-label">停车场GPS信息经度</label>
+                                    <input type="text" ng-model="parkMange.pkGpsIfLat" readonly name="pkGpsIfLat"
+                                           class="gui-input form-control"
+                                           data-bv-notempty="true"
+                                           data-bv-notempty-message="停车场GPS信息经度不能为空"/>
+                                </div>
+                                <div class="form-group">
+                                    <label class="ul-label control-label">停车场GPS信息纬度</label>
+                                    <input type="text" ng-model="parkMange.pkGpsIfLong" readonly name="pkGpsIfLong"
+                                           class="gui-input form-control"
+                                           data-bv-notempty="true"
+                                           data-bv-notempty-message="停车场GPS信息纬度不能为空"/>
+                                </div>
+                            </li>
+                            <li class="">
+                                <div class="form-group">
+                                    <label class="ul-label control-label">计费策略</label>
+                                    <select name="chargeRuleId" style="width: 296px;" class="gui-select" style="width: 296px">
+                                        <option  ng-repeat="o in parkMangeCharheShow" value="{{o.ruleName}}">{{o.ruleName}}</option>
+                                    </select>
+                                </div>
+
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="gui-btn"  data-dismiss="modal">关闭</button>
+                    <button type="button" class="gui-btn addYes" ng-click="geoadd()" >确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- update-->
+    <div class="modal fade" id="myUpdateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+        <div class="modal-dialog modal-style" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="">修改停车场信息</h4>
+                </div>
+                <div class="modal-body modal-style">
+                    <form action="" id="myupdateform" data-bv-excluded>
+                        <ul class="gui-UL clearfix gov-h">
+                            <li class="">
+                                <div class="form-group">
+                                    <label class="ul-label control-label">停车场名字</label>
+                                    <input type="text" ng-model="parkMange1.pkName" name="pkName1"
+                                           class="gui-input form-control"
+                                           data-bv-notempty="true"
+                                           data-bv-notempty-message="停车场名字不能为空"/>
+                                </div>
+                                <div class="form-group">
+                                    <label class="ul-label control-label">停车场编号</label>
+                                    <input type="text" ng-model="parkMange1.parkingCode" name="parkingCode1" placeholder="例如：001"
+                                           class="gui-input form-control"
+                                           data-bv-notempty="true"
+                                           data-bv-notempty-message="停车场编号不能为空"/>
+                                </div>
+                            </li>
+                            <li class="">
+                                <div class="form-group">
+                                    <label class="ul-label control-label">城市编号</label>
+                                    <input type="text" ng-model="parkMange1.cityCode"placeholder="例如：5101"
+                                           name="cityCode1"
+                                           class="gui-input form-control"
+                                           data-bv-notempty="true"
+                                           data-bv-notempty-message="城市编号不能为空"/>
+                                </div>
+                                <div class="form-group">
+                                    <label class="ul-label control-label">停车场地理电子围栏</label>
+                                    <input type="text" ng-click="updateMap()" ng-model="parkMange1.pkGpsIfEnclosure" readonly
+                                           name="pkGpsIfEnclosure1"
+                                           class="gui-input form-control"
+                                           data-bv-notempty="true"
+                                           data-bv-note mpty-message="停车场地理电子围栏不能为空"/>
+                                </div>
+                            </li>
+                            <li class="">
+                                <div class="form-group">
+                                    <label class="ul-label control-label">停车场停车位数量</label>
+                                    <input type="text" ng-model="parkMange1.pkSpAmnt" name="pkSpAmnt1"
+                                           class="gui-input form-control"
+                                           data-bv-notempty="true"
+                                           data-bv-notempty-message="停车场停车位数量不能为空"
+                                           data-bv-integer="true"
+                                           data-bv-integer-message="请输入整数"/>
+                                </div>
+                                <div class="form-group">
+                                    <label class="ul-label control-label">停车场所在片区</label>
+                                    <select name="pkPosAreaCode1" ng-model="parkMange1.pkPosAreaCode"  class="gui-select" id="pkPosAreaCode1">
+                                        <option ng-repeat="n in uniqueMarkShow" value="{{n.areaCode}}">{{n.fullName}}</option>
+                                    </select>
+                                    <!--<input type="text" readonly-->
+                                           <!--name="pkPosAreaCode1"-->
+                                           <!--class="gui-input form-control"-->
+                                           <!--data-bv-notempty="true"-->
+                                           <!--data-bv-notempty-message="停车场所在片区划分代码不能为空"/>-->
+                                </div>
+                            </li>
+                            <li class="">
+
+                                <div class="form-group">
+                                    <label class="ul-label control-label">停车场所在街道</label>
+                                    <select style="width: 296px;" name="pkPosStreet1"
+                                            class="gui-select "></select>
+                                    <!--<input type="text"  name="pkPosStreet1" ng-model="parkMange1.pkPosStreet"-->
+                                    <!--class="gui-input form-control"-->
+                                           <!--data-bv-notempty="true"-->
+                                           <!--data-bv-notempty-message="停车场所在街道不能为空"/>-->
+                                </div>
+                                <div class="form-group">
+                                    <label class="ul-label control-label">停车场状态</label>
+                                    <select name="pkStatus1" style="width: 296px;" class="gui-select "
+                                            ng-model="parkMange1.pkStatus">
+                                        <option value="0" >启用</option>
+                                        <option value="1">停用</option>
+                                    </select>
+                                </div>
+                            </li>
+                            <li class="">
+                                <div class="form-group">
+                                    <label class="ul-label control-label">停车场GPS信息经度</label>
+                                    <input type="text" ng-model="parkMange1.pkGpsIfLat" readonly name="pkGpsIfLat1"
+                                           class="gui-input form-control"
+                                           data-bv-notempty="true"
+                                           data-bv-notempty-message="停车场GPS信息经度不能为空"/>
+                                </div>
+                                <div class="form-group">
+                                    <label class="ul-label control-label">停车场GPS信息纬度</label>
+                                    <input type="text" ng-model="parkMange1.pkGpsIfLong" readonly name="pkGpsIfLong1"
+                                           class="gui-input form-control"
+                                           data-bv-notempty="true"
+                                           data-bv-notempty-message="停车场GPS信息经度不能为空"/>
+                                </div>
+                            </li>
+                            <li class="">
+                                <div class="form-group">
+                                    <label class="ul-label control-label">计费策略</label>
+                                    <select name="chargeRuleId1" ng-model="parkMange1.chargeRuleId" class="gui-select" style="width: 296px">
+                                        <option  ng-repeat="o in parkMangeCharheShow" value="{{o.ruleName}}">{{o.ruleName}}</option>
+                                    </select>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="gui-btn"  data-dismiss="modal">关闭</button>
+                    <button type="button" class="gui-btn updateYes" ng-click="geoUpdate()" >确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- map -->
+    <div class="modal fade" id="myMapModal" tabindex="-1" role="dialog" aria-labelledby="myMapModal" aria-hidden="true">
+        <div class="modal-dialog "style="min-width: 1300px;min-height: 600px;margin-top: 10px;" >
+            <div class="modal-content">
+                <div class="modal-header" align="right">
+                    <!--<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">关闭</span></button>-->
+                    <span class="fl">操作步骤：1、点击绘制围栏按钮，有序的绘制定点；2、绘制完成定点后，点击结束绘制，会出现一个蓝色区域；3、在蓝色区域靠近街道的地方设置中心点</span>
+                    <button type="button" class="gui-btn"  data-dismiss="modal">关闭</button>
+
+                </div>
+                <div class="modal-body clearfix gov-h" style="position: relative">
+                    <div id="container" style="min-width: 1300px;min-height: 500px;">
+                    </div>
+                    <div id="myseachcontain" style="position: absolute;top: 20px;right: 50px;z-index: 10">
+                        <input type="text" class="gui-input" ng-model="addressSeachname"/>
+                        <button class="gui-btn" onclick="addressSeach()">搜索</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!-- <span class="fl">操作步骤：1、点击绘制围栏按钮，有序的绘制定点；2、绘制完成定点后，点击结束绘制，会出现一个蓝色区域；3、在蓝色区域靠近街道的地方设置中心点</span> -->
+                    <button type="button" id="bt1" class="gui-btn"  >绘制围栏</button>
+                    <button type="button" id="bt2" class="gui-btn"  >结束绘制</button>
+                    <button type="button" id="clearMarker" class="gui-btn"  >清除标记</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

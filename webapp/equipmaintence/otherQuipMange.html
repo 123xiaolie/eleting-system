@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .gui-ul .ul-label {
+            width: 20%;
+            text-align: right;
+            padding-right: 15px;
+        }
+        .gui-UL .help-block, .gui-ul .help-block {
+            margin-left: 11%;
+        }
+        .gui-ul li select {
+            min-width: 130px;
+        }
+        .addMain .gui-select{
+            min-width: 136px;
+        }
+    </style>
+</head>
+<body>
+<div class="gui-section">
+    <div class="gui-seachform">
+        <label >设备名称</label><input type="text" class="gui-input" ng-model="otherQuipMangeseach.epName"/>
+        <!--<label >设备类型</label>-->
+        <!--<select name="deviceTypeIdSea" class="gui-select"   ng-model='otherQuipMangeseach.deviceTypeIdsea'>-->
+            <!--<option value="">全部</option>-->
+            <!--<option ng-repeat="j in OtherShebeiTye" value="{{j.deviceTypeId}}">{{j.equipTypeName}}</option>-->
+        <!--</select>-->
+        <label >设备厂商</label>
+        <select name="providerIdSeach" class="gui-select"   >
+            <option value="">全部</option>
+            <option ng-repeat="o in uniqueMarkFac" value="{{o.providerCode}}">{{o.providerName}}</option>
+        </select>
+        <button class="gui-btn btn-seacher" ng-click="tabChexked()">查询</button>
+    </div>
+    <div class="gui-NewUl">
+        <form action="" id="myform" data-bv-excluded style="margin: 10px 0px;">
+            <ul class="gui-ul clearfix gov-h gui-menuTree">
+                <li class="form-group ">
+                    <label class="ul-label control-label" alain='right'>设备名称</label>
+                    <input type="text" ng-model="otherQuipMange.epName"  name="epName"  disabled
+                           class="gui-input form-control"
+                           />
+                </li>
+                <li class="form-group ">
+                    <label class="ul-label control-label" alain='right'>设备编号</label>
+                    <input type="text" ng-model="otherQuipMange.deviceId" id="deviceId" name="deviceId"
+                           class="gui-input form-control" oninput="UpdateEpGemName()"
+                           data-bv-notempty="true"
+                           data-bv-notempty-message="设备编号不能为空"
+                            />
+                </li>
+                <li class="form-group">
+                    <label class="ul-label control-label">设备厂商</label>
+                    <select name="providerId" class="gui-select" ng-model="otherQuipMange.providerId"
+                            onchange="facCodeSea()"
+                            id="providerId"
+                            >
+                        <option value="">请选择厂商</option>
+                        <option ng-repeat="o in uniqueMarkFac" value="{{o.providerCode}}">{{o.providerName}}</option>
+                    </select>
+                </li>
+                <li class="form-group">
+                    <label class="ul-label control-label">设备类型</label>
+                    <select name="deviceTypeId"   class="gui-select" onchange="modelCodeSea()"  id="deviceTypeId">
+                        <option value="">无</option>
+                    </select>
+                </li>
+                <li class="form-group">
+                    <label class="ul-label control-label">设备型号</label>
+                    <select name="model"  class="gui-select"  onchange="paramsJsonSea()"  id="model" >
+                        <option value="">请选择型号</option>
+                        <!--<option ng-repeat="o in uniqueMarkParent" value="{{o.id}}">{{o.epName}}</option>-->
+                    </select>
+                </li>
+            </ul>
+            <ul class="gui-ul clearfix gov-h gui-menuTree addMain">
+
+            </ul>
+            <div class="gui-anniu">
+                <button class="gui-btn btn-add " type="button" id='add'>添加一行参数</button>
+                <button class="gui-btn btn-add addYes"  type="button" ng-click="modelShow()">新增</button>
+                <button class="gui-btn btn-update"  type="button" ng-click="modelSave()">保存修改</button>
+                <button class="gui-btn btn-repeat"  type="button" ng-click="modelRepeat()">重置</button>
+            </div>
+        </form>
+    </div>
+    <table id="grid" class="gui-table " >
+    </table>
+</div>
+<!--addmain-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+    <div class="modal-dialog modal-stylemid" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">新增内容</h4>
+            </div>
+            <div class="modal-body">
+                <form action=""  data-bv-excluded style="margin: 10px 0px;">
+                    <ul class="gui-ul clearfix gov-h main-list">
+                        <li class="form-group ">
+                            <label class=" " alain='right'>设备名称：</label>
+                            <input type="text" ng-model="otherQuipMange.epName"/>
+                        </li>
+                        <li class="form-group ">
+                            <label class=" " alain='right'>设备编号：</label>
+                            <input type="text" ng-model="otherQuipMange.deviceId"/>
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">设备厂商：</label>
+                            <input type="text" ng-model="otherQuipMange.providerName"/>
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">设备类型：</label>
+                            <input type="text" ng-model="otherQuipMange.deviceTypeName"/>
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">设备型号：</label>
+                            <input type="text" ng-model="otherQuipMange.model"/>
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">设备参数：</label>
+                            {{otherQuipMange.paramsJson}}
+                        </li>
+                    </ul>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="gui-btn btn-disable"  data-dismiss="modal">关闭</button>
+                <button type="button" class="gui-btn btn-add " ng-click="modelShowAdd()" >确认新增</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--updatemain-->
+<div class="modal fade" id="myUpdateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+    <div class="modal-dialog modal-stylemid" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" >修改内容</h4>
+            </div>
+            <div class="modal-body">
+                <form action=""  data-bv-excluded style="margin: 10px 0px;">
+                    <ul class="gui-ul clearfix gov-h main-list">
+                        <li class="form-group ">
+                            <label class=" " alain='right'>设备名称：</label>
+                            <input type="text" ng-model="otherQuipMange.epName"/>
+                        </li>
+                        <li class="form-group ">
+                            <label class=" " alain='right'>设备编号：</label>
+                            <input type="text" ng-model="otherQuipMange.deviceId"/>
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">设备厂商：</label>
+                            <input type="text" ng-model="otherQuipMange.providerName"/>
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">设备类型：</label>
+                            <input type="text" ng-model="otherQuipMange.deviceTypeName"/>
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">设备型号：</label>
+                            <input type="text" ng-model="otherQuipMange.model"/>
+                        </li>
+                        <li class="form-group">
+                            <label class=" ">设备参数：</label>
+                            {{otherQuipMange.paramsJson}}
+                        </li>
+                    </ul>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="gui-btn btn-disable"  data-dismiss="modal">关闭</button>
+                <button type="button" class="gui-btn btn-add " ng-click="modelShowSave()" >确认修改</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>车位收费报表</title>
+</head>
+<body>
+<div class="gui-section " style="position: relative">
+    <div class="gui-seachform"
+         >
+        <label>起始时间</label>
+        <input id="beginDate1" style="cursor: pointer" name='beginDate1' readonly="readonly" class="Wdate gui-input" type="text" onFocus="var endDate=$dp.$('lessDate1');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'lessDate1\')}'})"/>
+        <label >截止时间</label>
+        <input id="lessDate1" class="Wdate gui-input"  name='lessDate1' style="cursor: pointer" readonly="readonly" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'beginDate1\')}'})"/>
+        <label >查询方式</label>
+        <select class="gui-select" onchange="showTypeChange()" name="showType" >
+            <option value="01">---每天---</option>
+            <option value="02">---每周---</option>
+            <option value="03">---每月---</option>
+            <option value="04">---季度---</option>
+        </select>
+        <button type="button" class="gui-btn btn-add" data-toggle="modal" data-target="#myModal">
+            添加车位
+        </button>
+        <button class="gui-btn btn-seacher" ng-click="tabChexked()">查询</button>
+    </div>
+    <div id="c1" style="display: none"></div>
+    <div id="c5"></div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+        <div class="modal-dialog modal-style" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">添加车位</h4>
+                </div>
+                <div class="modal-body">
+                  <div style="margin-bottom: 10px;">
+                      <label class="ul-label control-label">所在片区</label>
+                      <select name="ispctArea" class="gui-select" id="ispctArea" onchange="AreaChange()">
+                          <option value="">无</option>
+                          <option ng-repeat="n in uniqueMarkShow" value="{{n.areaCode}}">{{n.fullName}}</option>
+                      </select>
+                      <label>停车场</label>
+                      <select name="pkSpcheckArr" id='pkSpcheckArr' class="gui-select">
+                          <option value="">无</option>
+                          <option ng-repeat="n in pkSpcheckArr.pkName" value="{{n.id}}">{{n.pkName}}</option>
+                      </select>
+                      <button class="gui-btn btn-seacher" ng-click="pkSpNameSeacher()">查询</button>
+                  </div>
+                    <div name='pkSpResult' style="border-top: 1px solid #e5e5e5;padding: 10px 0px;">
+                        <label class="checkedInput" ng-repeat="o in pkSpNameSeacherArr.pkSplaceName"
+                               style="margin-right: 10px;">
+                            <input type="checkbox" name="pkSplaceNameChecked" value="{{o.id}}"/>
+                            车位号：{{o.pkSpNumber}}
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="gui-btn" data-dismiss="modal">关闭</button>
+                    <button type="button" class="gui-btn" ng-click="submitSplaceId()">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

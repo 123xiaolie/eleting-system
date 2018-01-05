@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .gui-NewUl .gui-UL .help-block, .gui-NewUl .gui-ul .help-block {
+            margin-left: 21%;
+        }
+    </style>
+</head>
+<body>
+<div class="gui-section">
+    <div class="gui-seachform">
+        <label for="">设备ID</label><input type="text" class="gui-input" ng-model="equipRepairMangeseach.deviceId"/>
+        <label for="">设备修理人</label><input type="text" class="gui-input" ng-model="equipRepairMangeseach.repairPerson"/>
+        <button class="gui-btn btn-seacher" ng-click="tabChexked()">查询</button>
+    </div>
+    <div class="gui-NewUl">
+        <form action="" id="myform" data-bv-excluded style="margin: 10px 0px;">
+            <ul class="gui-ul clearfix gov-h gui-menuTree listFixed">
+                <li class="form-group">
+                    <label class="ul-label control-label">设备ID</label>
+                    <input type="text" ng-model="equipRepairMange.deviceId" name="deviceId"
+                           class="gui-input form-control"
+                           data-bv-notempty="true"
+                           data-bv-notempty-message="设备ID不能为空"/>
+                </li>
+                <li class="form-group">
+                    <label class="ul-label control-label">修理内容</label>
+                    <input type="text" ng-model="equipRepairMange.repairCont" name="repairCont"
+                           class="gui-input form-control"
+                           data-bv-notempty="true"
+                           data-bv-notempty-message="设备修理内容不能为空"/>
+                </li>
+                <li class="form-group">
+                    <label class="ul-label control-label">修理人</label>
+                    <input type="text" ng-model="equipRepairMange.repairPerson" name="repairPerson"
+                           class="gui-input form-control"
+                           data-bv-notempty="true"
+                           data-bv-notempty-message="设备修理人不能为空"/>
+                </li>
+
+                <li class="form-group">
+                    <label class="ul-label control-label">修理时间</label>
+                    <input name="repairTime" style="width: 188px;background-color: #fff" type="text" size="15"
+                           ng-model='equipRepairMange.repairTime'
+                           class="Wdate gui-input form-control" onblur="dataValidator('myform')" readonly
+                           onfocus="WdatePicker({dateFmt:'yyyy-MM-dd '}) "
+                           data-bv-notempty="true"
+                           data-bv-notempty-message="设备修理时间不能为空"/>
+                </li>
+            </ul>
+            <ul class="gui-ul clearfix gov-h gui-menuTree addMain">
+
+            </ul>
+            <div class="gui-anniu">
+                <button class="gui-btn btn-add addYes" type="button" ng-click="modelShow()">新增</button>
+                <button class="gui-btn btn-update" type="button" ng-click="modelSave()">保存修改</button>
+                <button class="gui-btn btn-repeat" type="button" ng-click="modelRepeat()">重置</button>
+            </div>
+        </form>
+    </div>
+    <table id="grid" class="gui-table ">
+    </table>
+    <!-- add-->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-stylemid">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span
+                            aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">新增设备维修管理信息</h4>
+                </div>
+                <div class="modal-body ">
+                    <form action="" id="" data-bv-excluded>
+                        <ul class="gui-ul clearfix gov-h main-list">
+                            <li class="form-group">
+                                <label class=" ">设备ID：</label>
+                                <input type="text" ng-model="equipRepairMange.deviceId" />
+                            </li>
+                            <li class="form-group">
+                                <label class=" ">修理内容：</label>
+                                <input type="text" ng-model="equipRepairMange.repairCont" name=""/>
+                            </li>
+                            <li class="form-group">
+                                <label class=" ">修理人：</label>
+                                <input type="text" ng-model="equipRepairMange.repairPerson" />
+                            </li>
+
+                            <li class="form-group">
+                                <label class=" ">修理时间：</label>
+                                <input name="repairTime" ng-model="equipRepairMange.repairTime"  type="text" />
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="gui-btn btn-disable" data-dismiss="modal">关闭</button>
+                    <button type="button" class="gui-btn btn-add addYes" ng-click="equipadd()">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- update-->
+    <div class="modal fade" id="myUpdateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-stylemid">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span
+                            aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" >修改设备维修管理信息</h4>
+                </div>
+                <div class="modal-body ">
+                    <form action="" id="myupdateform" data-bv-excluded>
+                        <ul class="gui-ul clearfix gov-h main-list">
+                            <li class="form-group">
+                                <label class=" ">设备ID：</label>
+                                <input type="text" ng-model="equipRepairMange.deviceId" />
+                            </li>
+                            <li class="form-group">
+                                <label class=" ">修理内容：</label>
+                                <input type="text" ng-model="equipRepairMange.repairCont" name=""/>
+                            </li>
+                            <li class="form-group">
+                                <label class=" ">修理人：</label>
+                                <input type="text" ng-model="equipRepairMange.repairPerson" />
+                            </li>
+
+                            <li class="form-group">
+                                <label class=" ">修理时间：</label>
+                                <input name="repairTime" ng-model="equipRepairMange.repairTime"  type="text" />
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="gui-btn btn-disable" data-dismiss="modal">关闭</button>
+                    <button type="button" class="gui-btn btn-add updateYes" ng-click="equipUpdate()">确认修改</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
